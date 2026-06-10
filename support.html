@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support Us — HER Circle</title>
+  <title>Support Us - HER Circle</title>
   <meta name="description" content="Support HER Circle: donate once or monthly, volunteer your time, sponsor an event, or become a corporate partner. See exactly what your gift makes possible.">
   <meta property="og:title" content="Support HER Circle">
   <meta property="og:description" content="Donate, volunteer, or partner with us to empower ambitious women.">
@@ -39,7 +39,7 @@
             <div class="gold-rule" style="margin-left:0"></div>
             <p style="color:var(--gray-600); margin-top:18px">
               HER Circle is a registered nonprofit. Donations fund our Founders Scholarship,
-              mentorship program, and community hub — with 88% of every dollar going directly
+              mentorship program, and community hub - with 88% of every dollar going directly
               to programs and scholarships.
             </p>
             <h3 style="margin-top:30px">Your Impact</h3>
@@ -51,7 +51,7 @@
           <form class="form-card reveal" data-delay="1" id="donate-form" novalidate>
             <div class="freq-toggle" role="group" aria-label="Donation frequency">
               <button type="button" data-freq="once" aria-pressed="true">One-Time</button>
-              <button type="button" data-freq="monthly" aria-pressed="false">Monthly 💜</button>
+              <button type="button" data-freq="monthly" aria-pressed="false">Monthly</button>
             </div>
             <div class="donate-amounts" role="group" aria-label="Donation amount">
               <button type="button" data-amount="25">$25</button>
@@ -71,7 +71,7 @@
             <div class="form-success" id="donate-success" role="status"></div>
             <button class="btn btn-gold btn-lg" type="submit" style="width:100%; margin-top:22px" id="donate-btn">Donate $50</button>
             <p class="hint" style="font-size:.78rem; color:var(--gray-400); text-align:center; margin:14px 0 0">
-              🔒 Demo checkout — production integrates Stripe for secure payment processing.
+              Demo checkout - production integrates Stripe for secure payment processing and a transactional email provider.
             </p>
           </form>
         </div>
@@ -100,10 +100,10 @@
             <div class="gold-rule" style="margin-left:0"></div>
             <p style="color:var(--gray-600); margin-top:18px">Our programs run on the generosity of professionals who give a few hours a month.</p>
             <ul style="list-style:none; padding:0; display:grid; gap:12px; color:var(--gray-800)">
-              <li>🤝 &nbsp;<strong>Mentors</strong> — guide an entrepreneur for 6 months (3 hrs/month)</li>
-              <li>🎤 &nbsp;<strong>Workshop instructors</strong> — teach what you know</li>
-              <li>🎪 &nbsp;<strong>Event team</strong> — help our experiences run beautifully</li>
-              <li>📸 &nbsp;<strong>Media team</strong> — writers, photographers, storytellers</li>
+              <li> &nbsp;<strong>Mentors</strong> - guide an entrepreneur for 6 months (3 hrs/month)</li>
+              <li><strong>Workshop instructors</strong> - teach what you know</li>
+              <li><strong>Event team</strong> - help our experiences run beautifully</li>
+              <li><strong>Media team</strong> - writers, photographers, storytellers</li>
             </ul>
           </div>
           <form class="form-card reveal" data-delay="1" id="volunteer-form" novalidate>
@@ -116,7 +116,7 @@
               <div class="field full">
                 <label for="vol-role">I'd love to help with <span class="req">*</span></label>
                 <select id="vol-role" required>
-                  <option value="">Select a role…</option>
+                  <option value="">Select a role...</option>
                   <option>Mentorship</option>
                   <option>Workshop Instruction</option>
                   <option>Event Support</option>
@@ -141,7 +141,7 @@
         <div class="section-head reveal">
           <span class="kicker">Sponsorship &amp; Corporate Partnerships</span>
           <h2>Partner With the Circle</h2>
-          <p>Put your brand behind women's success — and in front of an engaged, ambitious community.</p>
+          <p>Put your brand behind women's success - and in front of an engaged, ambitious community.</p>
         </div>
         <div class="grid grid-3">
           <div class="glass reveal">
@@ -197,7 +197,7 @@
         let tier = IMPACT[0];
         for (const t of IMPACT) if (amount >= t[0]) tier = t;
         const yearly = freq === "monthly" ? ` Over a year, that's <strong>$${(amount * 12).toLocaleString()}</strong> of sustained impact.` : "";
-        calc.innerHTML = `💜 <strong>$${amount.toLocaleString()}${label}</strong> ${tier[1]}.${yearly}`;
+        calc.innerHTML = `<strong>$${amount.toLocaleString()}${label}</strong> ${tier[1]}.${yearly}`;
       }
       document.querySelectorAll(".freq-toggle button").forEach(b => b.addEventListener("click", () => {
         freq = b.dataset.freq;
@@ -230,14 +230,15 @@
           if (!test(f(id).value.trim())) ok = false;
         });
         if (!ok) return;
-        HCDB.insert("donations", {
+        const donation = HCDB.insert("donations", {
           firstName: f("don-first").value.trim(), lastName: f("don-last").value.trim(),
           email: f("don-email").value.trim().toLowerCase(), amount, frequency: freq, campaign: "General Fund"
         });
+        HCDB.sendDonationEmails(donation);
         const box = document.getElementById("donate-success");
         box.classList.add("show");
-        box.innerHTML = `🎉 <strong>Thank you!</strong> Your ${freq === "monthly" ? "monthly " : ""}gift of $${amount.toLocaleString()} has been recorded. A receipt has been emailed to you.`;
-        HC.toast("Thank you for your generosity! 💜", "success");
+        box.innerHTML = `<strong>Thank you.</strong> Your ${freq === "monthly" ? "monthly " : ""}gift of $${amount.toLocaleString()} has been recorded. A receipt has been emailed to you.`;
+        HC.toast("Thank you for your generosity. A receipt has been queued.", "success");
         e.target.reset();
       });
 
@@ -250,7 +251,7 @@
           <h3>${HC.esc(c.title)}</h3>
           <p>${HC.esc(c.description)}</p>
           <div class="campaign-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="${HC.esc(c.title)} progress"><div class="fill" data-w="${pct}"></div></div>
-          <p style="margin-top:10px; font-size:.9rem"><strong style="color:var(--purple)">$${c.raised.toLocaleString()}</strong> raised of $${c.goal.toLocaleString()} goal · <strong>${pct}%</strong></p>
+          <p style="margin-top:10px; font-size:.9rem"><strong style="color:var(--purple)">$${c.raised.toLocaleString()}</strong> raised of $${c.goal.toLocaleString()} goal - <strong>${pct}%</strong></p>
           <a class="btn btn-outline btn-sm" href="#donate">Give to This Campaign</a>
         </div>`;
       }).join("");
@@ -279,8 +280,8 @@
         });
         const box = document.getElementById("volunteer-success");
         box.classList.add("show");
-        box.innerHTML = `💜 <strong>Thank you for raising your hand!</strong> Our team will reach out within a few days to find your perfect fit.`;
-        HC.toast("Volunteer signup received — welcome aboard!", "success");
+        box.innerHTML = `<strong>Thank you for raising your hand.</strong> Our team will reach out within a few days to find your perfect fit.`;
+        HC.toast("Volunteer signup received. Welcome aboard.", "success");
         e.target.reset();
       });
     });
