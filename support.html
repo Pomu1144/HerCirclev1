@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Us — HER Circle</title>
+  <meta name="description" content="Support HER Circle: donate once or monthly, volunteer your time, sponsor an event, or become a corporate partner. See exactly what your gift makes possible.">
+  <meta property="og:title" content="Support HER Circle">
+  <meta property="og:description" content="Donate, volunteer, or partner with us to empower ambitious women.">
+  <meta name="theme-color" content="#2E1065">
+  <link rel="canonical" href="https://hercircle.org/support.html">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-glow g1" aria-hidden="true"></div>
+      <div class="container">
+        <span class="hero-kicker hero-up d1">Every Gift Builds the Circle</span>
+        <h1 class="hero-up d2">Invest in <span class="gold-script">Her Success</span></h1>
+        <p class="hero-up d3">Your support funds scholarships, mentorship, and programs that help women build businesses and futures. Give once, give monthly, or give your time.</p>
+      </div>
+    </section>
+
+    <!-- Donation -->
+    <section class="section" id="donate">
+      <div class="container">
+        <div class="split" style="align-items:start">
+          <div class="reveal">
+            <span class="kicker">Donate</span>
+            <h2>Make a Gift Today</h2>
+            <div class="gold-rule" style="margin-left:0"></div>
+            <p style="color:var(--gray-600); margin-top:18px">
+              HER Circle is a registered nonprofit. Donations fund our Founders Scholarship,
+              mentorship program, and community hub — with 88% of every dollar going directly
+              to programs and scholarships.
+            </p>
+            <h3 style="margin-top:30px">Your Impact</h3>
+            <div class="impact-calc-result" id="impact-calc" aria-live="polite">
+              Select an amount to see what your gift makes possible.
+            </div>
+          </div>
+
+          <form class="form-card reveal" data-delay="1" id="donate-form" novalidate>
+            <div class="freq-toggle" role="group" aria-label="Donation frequency">
+              <button type="button" data-freq="once" aria-pressed="true">One-Time</button>
+              <button type="button" data-freq="monthly" aria-pressed="false">Monthly 💜</button>
+            </div>
+            <div class="donate-amounts" role="group" aria-label="Donation amount">
+              <button type="button" data-amount="25">$25</button>
+              <button type="button" data-amount="50" aria-pressed="true">$50</button>
+              <button type="button" data-amount="100">$100</button>
+              <button type="button" data-amount="250">$250</button>
+            </div>
+            <div class="field" style="margin-bottom:18px">
+              <label for="custom-amount">Custom amount (USD)</label>
+              <input id="custom-amount" type="number" min="1" step="1" placeholder="Other amount">
+            </div>
+            <div class="form-grid">
+              <div class="field"><label for="don-first">First Name <span class="req">*</span></label><input id="don-first" required autocomplete="given-name"><span class="error-msg">Required.</span></div>
+              <div class="field"><label for="don-last">Last Name <span class="req">*</span></label><input id="don-last" required autocomplete="family-name"><span class="error-msg">Required.</span></div>
+              <div class="field full"><label for="don-email">Email <span class="req">*</span></label><input id="don-email" type="email" required autocomplete="email"><span class="error-msg">Valid email required.</span></div>
+            </div>
+            <div class="form-success" id="donate-success" role="status"></div>
+            <button class="btn btn-gold btn-lg" type="submit" style="width:100%; margin-top:22px" id="donate-btn">Donate $50</button>
+            <p class="hint" style="font-size:.78rem; color:var(--gray-400); text-align:center; margin:14px 0 0">
+              🔒 Demo checkout — production integrates Stripe for secure payment processing.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Campaigns -->
+    <section class="section section-tint" id="campaigns">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Fundraising Campaigns</span>
+          <h2>Where Your Gift Goes</h2>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="grid grid-3" id="campaigns-list"></div>
+      </div>
+    </section>
+
+    <!-- Volunteer -->
+    <section class="section" id="volunteer">
+      <div class="container">
+        <div class="split" style="align-items:start">
+          <div class="reveal">
+            <span class="kicker">Volunteer</span>
+            <h2>Give Your Time &amp; Talent</h2>
+            <div class="gold-rule" style="margin-left:0"></div>
+            <p style="color:var(--gray-600); margin-top:18px">Our programs run on the generosity of professionals who give a few hours a month.</p>
+            <ul style="list-style:none; padding:0; display:grid; gap:12px; color:var(--gray-800)">
+              <li>🤝 &nbsp;<strong>Mentors</strong> — guide an entrepreneur for 6 months (3 hrs/month)</li>
+              <li>🎤 &nbsp;<strong>Workshop instructors</strong> — teach what you know</li>
+              <li>🎪 &nbsp;<strong>Event team</strong> — help our experiences run beautifully</li>
+              <li>📸 &nbsp;<strong>Media team</strong> — writers, photographers, storytellers</li>
+            </ul>
+          </div>
+          <form class="form-card reveal" data-delay="1" id="volunteer-form" novalidate>
+            <h3>Volunteer Sign-Up</h3>
+            <div class="form-grid">
+              <div class="field"><label for="vol-first">First Name <span class="req">*</span></label><input id="vol-first" required autocomplete="given-name"><span class="error-msg">Required.</span></div>
+              <div class="field"><label for="vol-last">Last Name <span class="req">*</span></label><input id="vol-last" required autocomplete="family-name"><span class="error-msg">Required.</span></div>
+              <div class="field"><label for="vol-email">Email <span class="req">*</span></label><input id="vol-email" type="email" required autocomplete="email"><span class="error-msg">Valid email required.</span></div>
+              <div class="field"><label for="vol-phone">Phone</label><input id="vol-phone" type="tel" autocomplete="tel"></div>
+              <div class="field full">
+                <label for="vol-role">I'd love to help with <span class="req">*</span></label>
+                <select id="vol-role" required>
+                  <option value="">Select a role…</option>
+                  <option>Mentorship</option>
+                  <option>Workshop Instruction</option>
+                  <option>Event Support</option>
+                  <option>Media & Storytelling</option>
+                  <option>Wherever I'm needed</option>
+                </select>
+                <span class="error-msg">Please choose a role.</span>
+              </div>
+              <div class="field full"><label for="vol-notes">Tell us about your skills &amp; availability</label><textarea id="vol-notes" style="min-height:90px"></textarea></div>
+            </div>
+            <div class="form-success" id="volunteer-success" role="status"></div>
+            <button class="btn btn-purple" type="submit" style="width:100%; margin-top:22px">Sign Up to Volunteer</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sponsorship -->
+    <section class="section section-dark" id="sponsor">
+      <div class="px-layer" aria-hidden="true"></div>
+      <div class="container" style="position:relative">
+        <div class="section-head reveal">
+          <span class="kicker">Sponsorship &amp; Corporate Partnerships</span>
+          <h2>Partner With the Circle</h2>
+          <p>Put your brand behind women's success — and in front of an engaged, ambitious community.</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="glass reveal">
+            <span class="tag gold">Gold Circle</span>
+            <h3 style="margin-top:14px">Event Sponsor</h3>
+            <p>Brand presence at a signature event, remarks opportunity, and member communications feature.</p>
+            <p style="color:var(--gold); font-weight:700; font-size:1.2rem">From $2,500</p>
+          </div>
+          <div class="glass reveal" data-delay="1">
+            <span class="tag gold">Platinum Circle</span>
+            <h3 style="margin-top:14px">Program Partner</h3>
+            <p>Named sponsorship of the Academy or Mentorship cohort, year-round visibility, and impact reporting.</p>
+            <p style="color:var(--gold); font-weight:700; font-size:1.2rem">From $10,000</p>
+          </div>
+          <div class="glass reveal" data-delay="2">
+            <span class="tag gold">Founders Circle</span>
+            <h3 style="margin-top:14px">Strategic Partner</h3>
+            <p>Multi-year partnership shaping HER Circle's growth, with board engagement and co-branded initiatives.</p>
+            <p style="color:var(--gold); font-weight:700; font-size:1.2rem">Custom</p>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top:40px" class="reveal">
+          <a class="btn btn-gold btn-lg" href="contact.html?interest=Sponsorship">Request a Partnership Deck</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await HCDB.ready;
+      const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
+      /* ----- Donation widget ----- */
+      let amount = 50, freq = "once";
+      const donBtn = document.getElementById("donate-btn");
+      const calc = document.getElementById("impact-calc");
+      const IMPACT = [
+        [25, "covers one member's workshop materials for a session"],
+        [50, "sponsors a woman's seat at a Business Academy workshop"],
+        [100, "funds a month of mentorship matching and support for one pair"],
+        [250, "provides a partial Founders Scholarship toward membership and Academy tuition"],
+        [500, "funds a full Founders Scholarship for one aspiring entrepreneur"],
+        [1000, "underwrites an entire community workshop for 30 women"]
+      ];
+      function updateWidget() {
+        const label = freq === "monthly" ? `/month` : "";
+        donBtn.textContent = `Donate $${amount.toLocaleString()}${label}`;
+        let tier = IMPACT[0];
+        for (const t of IMPACT) if (amount >= t[0]) tier = t;
+        const yearly = freq === "monthly" ? ` Over a year, that's <strong>$${(amount * 12).toLocaleString()}</strong> of sustained impact.` : "";
+        calc.innerHTML = `💜 <strong>$${amount.toLocaleString()}${label}</strong> ${tier[1]}.${yearly}`;
+      }
+      document.querySelectorAll(".freq-toggle button").forEach(b => b.addEventListener("click", () => {
+        freq = b.dataset.freq;
+        document.querySelectorAll(".freq-toggle button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+        updateWidget();
+      }));
+      document.querySelectorAll(".donate-amounts button").forEach(b => b.addEventListener("click", () => {
+        amount = parseInt(b.dataset.amount, 10);
+        document.getElementById("custom-amount").value = "";
+        document.querySelectorAll(".donate-amounts button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+        updateWidget();
+      }));
+      document.getElementById("custom-amount").addEventListener("input", e => {
+        const v = parseInt(e.target.value, 10);
+        if (v > 0) {
+          amount = v;
+          document.querySelectorAll(".donate-amounts button").forEach(x => x.setAttribute("aria-pressed", "false"));
+          updateWidget();
+        }
+      });
+      updateWidget();
+
+      document.getElementById("donate-form").addEventListener("submit", e => {
+        e.preventDefault();
+        const f = id => document.getElementById(id);
+        let ok = true;
+        [["don-first", v => v], ["don-last", v => v], ["don-email", validEmail]].forEach(([id, test]) => {
+          const field = f(id).closest(".field");
+          field.classList.toggle("invalid", !test(f(id).value.trim()));
+          if (!test(f(id).value.trim())) ok = false;
+        });
+        if (!ok) return;
+        HCDB.insert("donations", {
+          firstName: f("don-first").value.trim(), lastName: f("don-last").value.trim(),
+          email: f("don-email").value.trim().toLowerCase(), amount, frequency: freq, campaign: "General Fund"
+        });
+        const box = document.getElementById("donate-success");
+        box.classList.add("show");
+        box.innerHTML = `🎉 <strong>Thank you!</strong> Your ${freq === "monthly" ? "monthly " : ""}gift of $${amount.toLocaleString()} has been recorded. A receipt has been emailed to you.`;
+        HC.toast("Thank you for your generosity! 💜", "success");
+        e.target.reset();
+      });
+
+      /* ----- Campaigns ----- */
+      const campaigns = HCDB.get("campaigns");
+      document.getElementById("campaigns-list").innerHTML = campaigns.map((c, i) => {
+        const pct = Math.min(100, Math.round(c.raised / c.goal * 100));
+        return `
+        <div class="card reveal" data-delay="${i + 1}">
+          <h3>${HC.esc(c.title)}</h3>
+          <p>${HC.esc(c.description)}</p>
+          <div class="campaign-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="${HC.esc(c.title)} progress"><div class="fill" data-w="${pct}"></div></div>
+          <p style="margin-top:10px; font-size:.9rem"><strong style="color:var(--purple)">$${c.raised.toLocaleString()}</strong> raised of $${c.goal.toLocaleString()} goal · <strong>${pct}%</strong></p>
+          <a class="btn btn-outline btn-sm" href="#donate">Give to This Campaign</a>
+        </div>`;
+      }).join("");
+      HC.initReveals();
+      const io = new IntersectionObserver(entries => entries.forEach(en => {
+        if (en.isIntersecting) { en.target.querySelectorAll(".fill").forEach(fl => fl.style.width = fl.dataset.w + "%"); io.unobserve(en.target); }
+      }), { threshold: .3 });
+      document.querySelectorAll(".campaign-bar").forEach(b => io.observe(b));
+
+      /* ----- Volunteer form ----- */
+      document.getElementById("volunteer-form").addEventListener("submit", e => {
+        e.preventDefault();
+        const f = id => document.getElementById(id);
+        let ok = true;
+        [["vol-first", v => v], ["vol-last", v => v], ["vol-email", validEmail], ["vol-role", v => v]].forEach(([id, test]) => {
+          const field = f(id).closest(".field");
+          const bad = !test(f(id).value.trim());
+          field.classList.toggle("invalid", bad);
+          if (bad) ok = false;
+        });
+        if (!ok) return;
+        HCDB.insert("volunteers", {
+          firstName: f("vol-first").value.trim(), lastName: f("vol-last").value.trim(),
+          email: f("vol-email").value.trim().toLowerCase(), phone: f("vol-phone").value.trim(),
+          role: f("vol-role").value, notes: f("vol-notes").value.trim(), status: "new"
+        });
+        const box = document.getElementById("volunteer-success");
+        box.classList.add("show");
+        box.innerHTML = `💜 <strong>Thank you for raising your hand!</strong> Our team will reach out within a few days to find your perfect fit.`;
+        HC.toast("Volunteer signup received — welcome aboard!", "success");
+        e.target.reset();
+      });
+    });
+  </script>
+</body>
+</html>

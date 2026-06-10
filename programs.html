@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programs — HER Circle</title>
+  <meta name="description" content="Explore HER Circle programs: Circle Mentorship, HER Business Academy, Connect & Collaborate networking, and the Visibility Project — plus volunteer opportunities.">
+  <meta property="og:title" content="HER Circle Programs">
+  <meta property="og:description" content="Mentorship, business education, networking, and visibility programs for ambitious women.">
+  <meta name="theme-color" content="#2E1065">
+  <link rel="canonical" href="https://hercircle.org/programs.html">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-glow g1" aria-hidden="true"></div>
+      <div class="container">
+        <span class="hero-kicker hero-up d1">Programs With Purpose</span>
+        <h1 class="hero-up d2">Designed to Help You <span class="gold-script">Grow &amp; Lead</span></h1>
+        <p class="hero-up d3">Four signature programs that turn ambition into momentum — through mentorship, education, connection, and visibility.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div id="programs-list" style="display:grid; gap:48px"></div>
+      </div>
+    </section>
+
+    <section class="section parallax" aria-label="Program impact">
+      <div class="px-layer" aria-hidden="true"></div>
+      <div class="container" style="position:relative">
+        <div class="section-head reveal">
+          <span class="kicker">Program Impact</span>
+          <h2>Outcomes, Not Just Activities</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat reveal"><span class="num" data-count="48">0</span><span class="label">Active Mentees</span></div>
+          <div class="stat reveal" data-delay="1"><span class="num" data-count="600" data-suffix="+">0</span><span class="label">Workshop Attendees</span></div>
+          <div class="stat reveal" data-delay="2"><span class="num" data-count="35">0</span><span class="label">Businesses Launched</span></div>
+          <div class="stat reveal" data-delay="3"><span class="num" data-count="4.8">0</span><span class="label">Avg. Satisfaction / 5</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Success Story</span>
+          <h2>From Member to Founder</h2>
+          <div class="gold-rule"></div>
+        </div>
+        <div class="form-card reveal" data-delay="1" style="max-width:780px; margin:0 auto; text-align:center">
+          <span class="carousel-quote-mark" style="color:var(--gold-dark)" aria-hidden="true">"</span>
+          <blockquote style="font-family:var(--font-display); font-size:1.3rem; font-style:italic; line-height:1.5; margin:0 0 20px; color:var(--ink)">
+            I joined for the networking. I stayed for the Academy. Eighteen months later I left my corporate job,
+            secured funding, and opened my own practice — with three Circle members as my first referral partners.
+          </blockquote>
+          <div style="color:var(--purple); font-weight:700">Priya S.</div>
+          <div style="color:var(--gray-600); font-size:.9rem">Owner, Saffron Catering · Academy Cohort 3</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark cta-band">
+      <div class="container">
+        <div class="reveal">
+          <span class="kicker">Get Involved</span>
+          <h2>Lend Your Talent to the Circle</h2>
+          <p style="color:rgba(255,255,255,.75); max-width:560px; margin:0 auto 28px">
+            Mentors, workshop instructors, event hosts, and storytellers — our programs run on the generosity of women like you.
+          </p>
+          <a class="btn btn-gold btn-lg" href="support.html#volunteer">Volunteer With Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await HCDB.ready;
+      const programs = HCDB.get("programs");
+      const metricLabels = {
+        mentees: "Active Mentees", completion: "% Completion", satisfaction: "Satisfaction / 5",
+        workshops: "Workshops Held", attendees: "Attendees", launched: "Businesses Launched",
+        events: "Events Hosted", connections: "Connections Made", collaborations: "Collaborations",
+        features: "Member Features", reach: "Audience Reach", spotlights: "Spotlights"
+      };
+      document.getElementById("programs-list").innerHTML = programs.map((p, i) => `
+        <article class="split reveal" id="${p.id}" style="${i % 2 ? "direction:rtl" : ""}">
+          <div style="direction:ltr">
+            <span class="kicker">${HC.esc(p.icon)} Signature Program</span>
+            <h2 style="font-size:clamp(1.7rem,3vw,2.3rem)">${HC.esc(p.title)}</h2>
+            <p style="font-size:1.08rem; color:var(--purple); font-weight:500">${HC.esc(p.tagline)}</p>
+            <p style="color:var(--gray-600)">${HC.esc(p.description)}</p>
+            <div class="impact-calc-result" style="margin:18px 0">
+              <strong>Volunteer with this program:</strong> ${HC.esc(p.volunteer)}
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap">
+              <a class="btn btn-purple btn-sm" href="contact.html?interest=${encodeURIComponent(p.title)}">Ask About This Program</a>
+              <a class="btn btn-outline btn-sm" href="support.html#volunteer">Volunteer</a>
+            </div>
+          </div>
+          <div class="card" style="direction:ltr; background:var(--grad-hero); border:0; color:#fff">
+            <h3 style="color:var(--gold); font-size:1.05rem; letter-spacing:.1em; text-transform:uppercase; font-family:var(--font-body); font-weight:700">Impact Metrics</h3>
+            <div class="bar-chart" style="margin-top:18px">
+              ${Object.entries(p.impact).map(([k, v]) => {
+                const max = Math.max(...Object.values(p.impact));
+                return `<div class="bc-row" style="color:rgba(255,255,255,.85)">
+                  <span>${metricLabels[k] || k}</span>
+                  <div class="bc-track" style="background:rgba(255,255,255,.12)"><div class="bc-fill gold" data-w="${Math.round(v / max * 100)}"></div></div>
+                  <span class="bc-val" style="color:#fff">${v.toLocaleString()}</span>
+                </div>`;
+              }).join("")}
+            </div>
+          </div>
+        </article>`).join("");
+      HC.initReveals();
+
+      // Animate metric bars on scroll
+      const io = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll(".bc-fill").forEach(f => f.style.width = f.dataset.w + "%");
+          io.unobserve(e.target);
+        }
+      }), { threshold: .3 });
+      document.querySelectorAll(".bar-chart").forEach(b => io.observe(b));
+    });
+  </script>
+</body>
+</html>

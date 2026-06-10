@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In / Join — HER Circle</title>
+  <meta name="description" content="Sign in to your HER Circle account or join the community.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#2E1065">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-nav="solid">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="site-nav"></div>
+
+  <main id="main" class="auth-wrap">
+    <canvas id="particles" aria-hidden="true"></canvas>
+    <div class="hero-glow g1" aria-hidden="true"></div>
+
+    <div class="auth-card">
+      <div class="auth-tabs" role="tablist" aria-label="Authentication">
+        <button role="tab" id="tab-login" aria-selected="true" aria-controls="panel-login">Sign In</button>
+        <button role="tab" id="tab-signup" aria-selected="false" aria-controls="panel-signup">Join the Circle</button>
+      </div>
+
+      <!-- LOGIN -->
+      <section id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+        <h1>Welcome Back</h1>
+        <p class="auth-sub">Sign in to manage your events and profile.</p>
+        <form id="login-form" novalidate>
+          <div class="form-grid" style="grid-template-columns:1fr">
+            <div class="field"><label for="li-email">Email</label><input id="li-email" type="email" autocomplete="email" required><span class="error-msg">Enter a valid email.</span></div>
+            <div class="field"><label for="li-pass">Password</label><input id="li-pass" type="password" autocomplete="current-password" required><span class="error-msg">Enter your password.</span></div>
+          </div>
+          <div class="form-success" id="login-msg" role="status" style="margin-top:14px"></div>
+          <button class="btn btn-purple" type="submit" style="width:100%; margin-top:20px">Sign In</button>
+          <p class="auth-switch"><a href="#" id="forgot-link">Forgot your password?</a></p>
+        </form>
+      </section>
+
+      <!-- SIGNUP -->
+      <section id="panel-signup" role="tabpanel" aria-labelledby="tab-signup" hidden>
+        <h1>Join the Circle</h1>
+        <p class="auth-sub">Create your free account — it takes a minute.</p>
+        <form id="signup-form" novalidate>
+          <div class="form-grid">
+            <div class="field"><label for="su-first">First Name</label><input id="su-first" autocomplete="given-name" required><span class="error-msg">Required.</span></div>
+            <div class="field"><label for="su-last">Last Name</label><input id="su-last" autocomplete="family-name" required><span class="error-msg">Required.</span></div>
+            <div class="field full"><label for="su-email">Email</label><input id="su-email" type="email" autocomplete="email" required><span class="error-msg">Enter a valid email.</span></div>
+            <div class="field full"><label for="su-phone">Phone (optional)</label><input id="su-phone" type="tel" autocomplete="tel"></div>
+            <div class="field full">
+              <label for="su-pass">Password</label>
+              <input id="su-pass" type="password" autocomplete="new-password" required aria-describedby="pw-help">
+              <div class="pw-strength" aria-hidden="true"><i id="pw-bar"></i></div>
+              <span class="hint" id="pw-help">8+ characters with uppercase, lowercase, and a number.</span>
+              <span class="error-msg">Password doesn't meet requirements.</span>
+            </div>
+          </div>
+          <div class="form-success" id="signup-msg" role="status" style="margin-top:14px"></div>
+          <button class="btn btn-gold" type="submit" style="width:100%; margin-top:20px">Create Account</button>
+        </form>
+      </section>
+
+      <!-- FORGOT -->
+      <section id="panel-forgot" role="tabpanel" hidden>
+        <h1>Reset Password</h1>
+        <p class="auth-sub">Enter your email and we'll send a reset link.</p>
+        <form id="forgot-form" novalidate>
+          <div class="field"><label for="fg-email">Email</label><input id="fg-email" type="email" autocomplete="email" required><span class="error-msg">Enter a valid email.</span></div>
+          <div class="form-success" id="forgot-msg" role="status" style="margin-top:14px"></div>
+          <button class="btn btn-purple" type="submit" style="width:100%; margin-top:20px">Send Reset Link</button>
+          <p class="auth-switch"><a href="#" id="back-login">← Back to sign in</a></p>
+        </form>
+      </section>
+
+      <!-- RESET (via token link) -->
+      <section id="panel-reset" role="tabpanel" hidden>
+        <h1>Choose a New Password</h1>
+        <form id="reset-form" novalidate>
+          <div class="field"><label for="rs-pass">New Password</label><input id="rs-pass" type="password" autocomplete="new-password" required><span class="hint">8+ characters with uppercase, lowercase, and a number.</span><span class="error-msg">Password doesn't meet requirements.</span></div>
+          <div class="form-success" id="reset-msg" role="status" style="margin-top:14px"></div>
+          <button class="btn btn-gold" type="submit" style="width:100%; margin-top:20px">Reset Password</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await HCDB.ready;
+      const $ = id => document.getElementById(id);
+      const params = new URLSearchParams(location.search);
+      const next = params.get("next") || "";
+      const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+      const panels = ["panel-login", "panel-signup", "panel-forgot", "panel-reset"];
+      function show(panel) {
+        panels.forEach(p => $(p).hidden = p !== panel);
+        $("tab-login").setAttribute("aria-selected", String(panel === "panel-login"));
+        $("tab-signup").setAttribute("aria-selected", String(panel === "panel-signup"));
+      }
+      $("tab-login").addEventListener("click", () => show("panel-login"));
+      $("tab-signup").addEventListener("click", () => show("panel-signup"));
+      $("forgot-link").addEventListener("click", e => { e.preventDefault(); show("panel-forgot"); });
+      $("back-login").addEventListener("click", e => { e.preventDefault(); show("panel-login"); });
+
+      if (params.get("mode") === "signup") show("panel-signup");
+
+      // Email verification link (?verify=token)
+      if (params.get("verify")) {
+        const res = HCAuth.verifyEmail(params.get("verify"));
+        HC.toast(res.ok ? "✅ Email verified! You can now sign in." : res.message, res.ok ? "success" : "error");
+      }
+      // Password reset link (?reset=token)
+      if (params.get("reset")) show("panel-reset");
+
+      function redirectFor(user) {
+        if (next) return next;
+        return (user.role === "admin" || user.role === "coordinator") ? "admin.html" : "profile.html";
+      }
+
+      /* Login */
+      $("login-form").addEventListener("submit", async e => {
+        e.preventDefault();
+        const emailOk = validEmail($("li-email").value.trim());
+        const passOk = !!$("li-pass").value;
+        $("li-email").closest(".field").classList.toggle("invalid", !emailOk);
+        $("li-pass").closest(".field").classList.toggle("invalid", !passOk);
+        if (!emailOk || !passOk) return;
+        const res = await HCAuth.login($("li-email").value, $("li-pass").value);
+        if (!res.ok) { HC.toast(res.message, "error"); return; }
+        HC.toast(`Welcome back, ${res.user.firstName}!`, "success");
+        setTimeout(() => location.href = redirectFor(res.user), 600);
+      });
+
+      /* Signup with live password strength */
+      const bar = $("pw-bar");
+      const colors = ["#ef4444", "#f59e0b", "#eab308", "#22c55e"];
+      $("su-pass").addEventListener("input", e => {
+        const s = HCAuth.passwordStrength(e.target.value);
+        bar.style.width = (s / 4 * 100) + "%";
+        bar.style.background = colors[Math.max(0, s - 1)];
+      });
+      $("signup-form").addEventListener("submit", async e => {
+        e.preventDefault();
+        let ok = true;
+        [["su-first", v => v], ["su-last", v => v], ["su-email", validEmail], ["su-pass", HCAuth.validPassword]].forEach(([id, test]) => {
+          const bad = !test($(id).value.trim());
+          $(id).closest(".field").classList.toggle("invalid", bad);
+          if (bad) ok = false;
+        });
+        if (!ok) return;
+        const res = await HCAuth.signUp({
+          firstName: $("su-first").value, lastName: $("su-last").value,
+          email: $("su-email").value, phone: $("su-phone").value, password: $("su-pass").value
+        });
+        if (!res.ok) { HC.toast(res.message, "error"); return; }
+        const box = $("signup-msg");
+        box.classList.add("show");
+        box.innerHTML = `🎉 <strong>Account created!</strong> We've sent a verification email.
+          <br><small>(Demo: <a href="auth.html?verify=${res.verifyToken}">click here to verify your email</a> — production sends a real email.)</small>`;
+        e.target.reset();
+        bar.style.width = "0";
+      });
+
+      /* Forgot */
+      $("forgot-form").addEventListener("submit", async e => {
+        e.preventDefault();
+        if (!validEmail($("fg-email").value.trim())) {
+          $("fg-email").closest(".field").classList.add("invalid"); return;
+        }
+        const res = await HCAuth.requestPasswordReset($("fg-email").value);
+        const box = $("forgot-msg");
+        box.classList.add("show");
+        box.innerHTML = `If an account exists for that email, a reset link is on its way.` +
+          (res.token ? `<br><small>(Demo: <a href="auth.html?reset=${res.token}">click here to reset now</a>.)</small>` : "");
+      });
+
+      /* Reset */
+      $("reset-form").addEventListener("submit", async e => {
+        e.preventDefault();
+        if (!HCAuth.validPassword($("rs-pass").value)) {
+          $("rs-pass").closest(".field").classList.add("invalid"); return;
+        }
+        const res = await HCAuth.resetPassword(params.get("reset"), $("rs-pass").value);
+        if (!res.ok) { HC.toast(res.message, "error"); return; }
+        const box = $("reset-msg");
+        box.classList.add("show");
+        box.innerHTML = `✅ <strong>Password updated.</strong> You can now sign in.`;
+        setTimeout(() => { show("panel-login"); }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>

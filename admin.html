@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — HER Circle</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#2E1065">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#admin-content">Skip to main content</a>
+
+  <div class="admin-shell">
+    <aside class="admin-side" aria-label="Admin navigation">
+      <a class="nav-logo" href="index.html"><span class="mark" aria-hidden="true">HC</span><span>HER <em>Circle</em></span></a>
+      <a href="#" data-view="overview" class="active">📊 &nbsp;Overview</a>
+      <a href="#" data-view="users">👥 &nbsp;Users</a>
+      <a href="#" data-view="events">🎟️ &nbsp;Events</a>
+      <a href="#" data-view="contacts">📬 &nbsp;Contacts</a>
+      <a href="#" data-view="community">💜 &nbsp;Community</a>
+      <div style="flex:1"></div>
+      <div style="padding:12px 14px; font-size:.8rem; color:rgba(255,255,255,.5)" id="admin-user"></div>
+      <button class="side-link" id="admin-logout">↩ &nbsp;Sign Out</button>
+      <a href="index.html">🌐 &nbsp;View Site</a>
+    </aside>
+
+    <main class="admin-main" id="admin-content" aria-live="polite">
+      <div class="empty-state"><span class="big" aria-hidden="true">⏳</span>Loading dashboard…</div>
+    </main>
+  </div>
+
+  <!-- SheetJS for professional XLSX exports -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
