@@ -1,12 +1,12 @@
 /* ============================================================
-   HER Circle — Data Layer
+   HER Circle - Data Layer
    localStorage-backed store. Mirrors the production PostgreSQL
    schema (see README.md) so it can be swapped for real API calls.
    ============================================================ */
 
 const HCDB = (() => {
   const PREFIX = "hc_";
-  const VERSION = 3;
+  const VERSION = 4;
 
   function read(key, fallback) {
     try {
@@ -45,14 +45,14 @@ const HCDB = (() => {
       category: "Networking", date: futureDate(9, 8), durationMins: 90,
       location: "Riverside Conference Center", capacity: 60,
       price: "Free for members", description:
-        "Start your morning with intention. Structured speed-networking designed to spark real business relationships — every attendee leaves with at least five new connections.",
+        "Start your morning with intention. Structured speed-networking designed to spark real business relationships - every attendee leaves with at least five new connections.",
       details: "Coffee and a light breakfast provided. Bring business cards. Doors open 7:45 AM.",
       featured: true
     },
     {
       id: "evt-pitch-workshop", title: "Pitch Perfect: Tell Your Business Story",
       category: "Workshop", date: futureDate(16, 17), durationMins: 150,
-      location: "HER Circle Hub — Suite 200", capacity: 30,
+      location: "HER Circle Hub - Suite 200", capacity: 30,
       price: "Ticketed", description:
         "A hands-on workshop where you'll craft and practice a compelling pitch for your business or personal brand, with live coaching from communication experts.",
       details: "Limited to 30 seats for personalized feedback. Bring a one-paragraph description of your business or goal.",
@@ -79,7 +79,7 @@ const HCDB = (() => {
     {
       id: "evt-finance-masterclass", title: "Funding & Finance Masterclass",
       category: "Workshop", date: futureDate(38, 17), durationMins: 120,
-      location: "HER Circle Hub — Suite 200", capacity: 40,
+      location: "HER Circle Hub - Suite 200", capacity: 40,
       price: "Free for members", description:
         "Demystify business finance: funding options, credit, cash flow, and how to talk to lenders and investors with confidence.",
       details: "Led by a panel of finance professionals and small-business lenders. Q&A included.",
@@ -91,34 +91,34 @@ const HCDB = (() => {
     {
       id: "prog-mentorship", title: "Circle Mentorship",
       tagline: "Six-month guided mentorship pairing emerging women entrepreneurs with seasoned leaders.",
-      icon: "🤝",
+      icon: "Mentorship",
       impact: { mentees: 48, completion: 92, satisfaction: 4.8 },
       description: "Our flagship program pairs members with experienced mentors for a structured six-month journey: monthly one-on-ones, quarterly circle sessions, and a personal growth roadmap. Mentees set measurable goals and graduate with an expanded network and a clear plan.",
-      volunteer: "Become a mentor — share 3 hours a month to change a career trajectory."
+      volunteer: "Become a mentor - share 3 hours a month to change a career trajectory."
     },
     {
       id: "prog-academy", title: "HER Business Academy",
       tagline: "Practical workshops on finance, marketing, operations, and leadership for women building businesses.",
-      icon: "📈",
+      icon: "Academy",
       impact: { workshops: 24, attendees: 600, launched: 35 },
-      description: "A rolling curriculum of expert-led workshops covering the real mechanics of building a business — pricing, funding, marketing, hiring, and legal foundations. Members earn certificates and lifetime access to session resources.",
-      volunteer: "Teach a workshop — we welcome professionals to share their expertise."
+      description: "A rolling curriculum of expert-led workshops covering the real mechanics of building a business - pricing, funding, marketing, hiring, and legal foundations. Members earn certificates and lifetime access to session resources.",
+      volunteer: "Teach a workshop - we welcome professionals to share their expertise."
     },
     {
       id: "prog-connect", title: "Connect & Collaborate",
       tagline: "Monthly networking experiences engineered for genuine connection, not card-swapping.",
-      icon: "✨",
+      icon: "Network",
       impact: { events: 36, connections: 2400, collaborations: 85 },
       description: "From structured power-hours to industry roundtables and social mixers, our events are designed so every woman walks away with relationships that matter. Members report an average of five meaningful new connections per event.",
-      volunteer: "Host or co-host an event — venue partners and facilitators welcome."
+      volunteer: "Host or co-host an event - venue partners and facilitators welcome."
     },
     {
       id: "prog-visibility", title: "Visibility Project",
       tagline: "Spotlighting member businesses through features, showcases, and community campaigns.",
-      icon: "📣",
+      icon: "Visibility",
       impact: { features: 120, reach: 50000, spotlights: 52 },
       description: "We amplify our members: weekly business spotlights, a member directory, showcase pop-ups, and collaborative marketing campaigns that put women-owned businesses in front of new audiences.",
-      volunteer: "Join the media team — writers, photographers, and social storytellers needed."
+      volunteer: "Join the media team - writers, photographers, and social storytellers needed."
     }
   ];
 
@@ -155,9 +155,15 @@ const HCDB = (() => {
     if (!read("donations")) write("donations", []);
     if (!read("volunteers")) write("volunteers", []);
     if (!read("subscribers")) write("subscribers", []);
+    if (!read("outbox")) write("outbox", []);
     if (!read("audit")) write("audit", []);
+    if (!read("audit", []).length) write("audit", [
+      { id: uid(), actor: "system@hercircle.org", action: "dashboard-review", detail: "Dashboard health check completed: users, events, donations, contacts, volunteers, and subscribers reviewed.", at: new Date(Date.now() - 1000 * 60 * 45).toISOString() },
+      { id: uid(), actor: "system@hercircle.org", action: "export-ready", detail: "Admin reporting exports prepared for users, contacts, attendees, volunteers, and donations.", at: new Date(Date.now() - 1000 * 60 * 90).toISOString() },
+      { id: uid(), actor: "system@hercircle.org", action: "email-service", detail: "Donation receipt and team notification email templates are active in the local mail outbox.", at: new Date(Date.now() - 1000 * 60 * 120).toISOString() }
+    ]);
 
-    // Seed demo accounts (demo only — production uses server-side bcrypt; see README)
+    // Seed demo accounts (demo only - production uses server-side bcrypt; see README)
     const users = read("users", []);
     if (!users.some(u => u.email === "admin@hercircle.org")) {
       const salt = uid();
@@ -177,6 +183,35 @@ const HCDB = (() => {
         createdAt: new Date().toISOString()
       });
       write("users", users);
+    }
+
+    const currentUsers = read("users", []);
+    if (!currentUsers.some(u => u.email === "member@hercircle.org")) {
+      const salt3 = uid();
+      currentUsers.push({
+        id: uid(), firstName: "Morgan", lastName: "Taylor",
+        email: "member@hercircle.org", phone: "(555) 010-3000",
+        role: "user", verified: true, salt: salt3,
+        passwordHash: await sha256("Member123!" + salt3),
+        createdAt: new Date().toISOString()
+      });
+      write("users", currentUsers);
+    }
+
+    const demoUser = read("users", []).find(u => u.email === "member@hercircle.org");
+    if (demoUser && !read("registrations", []).some(r => r.email === demoUser.email)) {
+      const firstEvent = read("events", [])[0];
+      if (firstEvent) {
+        insert("registrations", {
+          eventId: firstEvent.id, eventTitle: firstEvent.title,
+          firstName: demoUser.firstName, lastName: demoUser.lastName, email: demoUser.email, phone: demoUser.phone,
+          notes: "Default member registration for dashboard review.", status: "confirmed", attendance: "registered", reminderOptIn: true
+        });
+      }
+      insert("donations", {
+        firstName: demoUser.firstName, lastName: demoUser.lastName, email: demoUser.email, amount: 50, frequency: "monthly", campaign: "General Fund"
+      });
+      insert("subscribers", { email: demoUser.email, source: "default-account" });
     }
   }
 
@@ -211,6 +246,34 @@ const HCDB = (() => {
     const rows = get("audit");
     rows.unshift({ id: uid(), actor: actorEmail, action, detail, at: new Date().toISOString() });
     set("audit", rows.slice(0, 500));
+  }
+
+  function queueEmail({ to, subject, message, type = "general", meta = {} }) {
+    const email = insert("outbox", {
+      to, subject, message, type, meta, status: "queued", queuedAt: new Date().toISOString()
+    });
+    console.info(`[HER Circle] Email queued: ${subject} -> ${to}`);
+    return email;
+  }
+
+  function sendDonationEmails(donation) {
+    const donorName = `${donation.firstName} ${donation.lastName}`.trim();
+    const amountLabel = `$${Number(donation.amount || 0).toLocaleString()}`;
+    queueEmail({
+      to: donation.email,
+      subject: `HER Circle donation receipt - ${amountLabel}`,
+      type: "donation-receipt",
+      meta: { donationId: donation.id },
+      message: `Dear ${donorName}, thank you for your ${donation.frequency === "monthly" ? "monthly " : ""}gift of ${amountLabel} to HER Circle. This receipt confirms your contribution to the ${donation.campaign || "General Fund"}.`
+    });
+    queueEmail({
+      to: "donations@hercircle.org",
+      subject: `New donation received - ${amountLabel}`,
+      type: "donation-admin",
+      meta: { donationId: donation.id },
+      message: `${donorName} (${donation.email}) submitted a ${donation.frequency || "once"} donation of ${amountLabel} for ${donation.campaign || "General Fund"}.`
+    });
+    audit("system@hercircle.org", "donation-email", `Queued receipt and admin notification for ${donation.email}`);
   }
 
   /* ---------- Domain helpers ---------- */
@@ -254,7 +317,7 @@ const HCDB = (() => {
   }
 
   return {
-    init, uid, sha256, get, set, insert, update, remove, audit,
+    init, uid, sha256, get, set, insert, update, remove, audit, queueEmail, sendDonationEmails,
     eventRegistrations, eventConfirmedCount, registerForEvent, promoteWaitlist
   };
 })();

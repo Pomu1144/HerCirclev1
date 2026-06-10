@@ -1,5 +1,5 @@
 /* ============================================================
-   HER Circle — Shared site behavior
+   HER Circle - Shared site behavior
    Nav/footer injection, particles, scroll reveals, counters,
    carousel, parallax, toasts, newsletter.
    ============================================================ */
@@ -40,7 +40,7 @@ const HC = (() => {
       const dest = user.role === "admin" || user.role === "coordinator" ? "admin.html" : "profile.html";
       account = `<a class="account-chip nav-account" href="${dest}"><span class="av" aria-hidden="true">${esc(initials)}</span>${esc(user.firstName)}</a>`;
     } else {
-      account = `<a class="account-chip nav-account" href="auth.html"><span class="av" aria-hidden="true">→</span>Sign In</a>`;
+      account = `<a class="account-chip nav-account" href="auth.html"><span class="av" aria-hidden="true">Sign In:</span>Sign In</a>`;
     }
 
     mount.innerHTML = `
@@ -94,7 +94,7 @@ const HC = (() => {
                 <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
                 <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
                 <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">f</a>
-                <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+                <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
               </div>
             </div>
             <div>
@@ -125,8 +125,8 @@ const HC = (() => {
             </div>
           </div>
           <div class="footer-bottom">
-            <span>© ${new Date().getFullYear()} HER Circle. A registered nonprofit organization. All rights reserved.</span>
-            <span>Built with purpose · <a href="contact.html">Privacy &amp; Terms</a></span>
+            <span>(c) ${new Date().getFullYear()} HER Circle. A registered nonprofit organization. All rights reserved.</span>
+            <span>Built with purpose - <a href="contact.html">Privacy &amp; Terms</a></span>
           </div>
         </div>
       </footer>`;
@@ -291,10 +291,10 @@ const HC = (() => {
         const email = input.value.trim().toLowerCase();
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast("Please enter a valid email address.", "error"); return; }
         const subs = HCDB.get("subscribers");
-        if (subs.some(s => s.email === email)) { toast("You're already on the list — thank you!", "success"); }
+        if (subs.some(s => s.email === email)) { toast("You are already on the list. Thank you.", "success"); }
         else {
           HCDB.insert("subscribers", { email, source: currentPage() });
-          toast("Welcome to the Circle! You're subscribed. 💜", "success");
+          toast("Welcome to the Circle. You are subscribed.", "success");
         }
         input.value = "";
       });

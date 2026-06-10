@@ -66,7 +66,7 @@ Sign in at `auth.html`, then visit `admin.html` for the dashboard.
 - Scroll-triggered reveals, parallax bands, animated statistic counters
 - Auto-playing success-stories carousel (keyboard & touch friendly)
 - Event management: category chips, live search, sorting, detail modals, registration with **capacity tracking + automatic waitlist promotion**, reminder opt-in
-- Donation widget with one-time/monthly toggle, preset & custom amounts, **live impact calculator**, campaign progress bars
+- Donation widget with one-time/monthly toggle, preset & custom amounts, **live impact calculator**, campaign progress bars, and queued donor/admin email notifications
 - Volunteer signup, sponsorship tiers, newsletter capture
 - Contact form (first/last/email/phone/organization/interest/message) with validation
 - FAQ accordion, embedded map, downloadable impact reports
@@ -77,6 +77,10 @@ Sign in at `auth.html`, then visit `admin.html` for the dashboard.
 - Salted SHA-256 hashing (WebCrypto), 8-hour sessions, login lockout after 5 failed attempts
 - Roles: **Visitor → Registered User → Event Coordinator → Administrator**
 - Role-gated routes (`profile.html`, `admin.html`)
+
+### Default demo logins
+- Administrator dashboard: `admin@hercircle.org` / `Admin123!`
+- Member profile: `member@hercircle.org` / `Member123!`
 
 ### Admin dashboard (`admin.html`)
 - **Overview:** KPIs (users, registrations, donations, contacts, volunteers, subscribers), 6-month traffic & user-growth charts, event-attendance chart, **audit log** of admin actions

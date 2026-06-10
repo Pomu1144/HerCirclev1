@@ -1,5 +1,5 @@
 /* ============================================================
-   HER Circle — Admin Dashboard
+   HER Circle - Admin Dashboard
    Overview analytics, user management, event CRUD + registrants,
    contact management (filter/search/sort/bulk), volunteer &
    donation views, professional XLSX exports via SheetJS.
@@ -135,12 +135,12 @@
 
     main().innerHTML = `
       <div class="admin-head"><h1>Reporting Dashboard</h1>
-        <span style="color:var(--gray-600); font-size:.9rem">Welcome back, ${HC.esc(admin.firstName)} · ${new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}</span>
+        <span style="color:var(--gray-600); font-size:.9rem">Welcome back, ${HC.esc(admin.firstName)} - ${new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}</span>
       </div>
       <div class="kpi-grid">
         <div class="kpi"><div class="kpi-label">Registered Users</div><div class="kpi-value">${users.length}</div><div class="kpi-sub">${users.filter(u => u.verified).length} verified</div></div>
         <div class="kpi"><div class="kpi-label">Event Registrations</div><div class="kpi-value">${regs.filter(r => r.status !== "cancelled").length}</div><div class="kpi-sub">${regs.filter(r => r.status === "waitlist").length} on waitlists</div></div>
-        <div class="kpi gold"><div class="kpi-label">Donations</div><div class="kpi-value">$${donTotal.toLocaleString()}</div><div class="kpi-sub">${donations.length} gifts · ${donations.filter(d => d.frequency === "monthly").length} recurring</div></div>
+        <div class="kpi gold"><div class="kpi-label">Donations</div><div class="kpi-value">$${donTotal.toLocaleString()}</div><div class="kpi-sub">${donations.length} gifts - ${donations.filter(d => d.frequency === "monthly").length} recurring</div></div>
         <div class="kpi"><div class="kpi-label">Contact Submissions</div><div class="kpi-value">${contacts.length}</div><div class="kpi-sub">${contacts.filter(c => c.status === "new").length} awaiting reply</div></div>
         <div class="kpi"><div class="kpi-label">Volunteer Signups</div><div class="kpi-value">${volunteers.length}</div><div class="kpi-sub">${volunteers.filter(v => v.status === "new").length} new</div></div>
         <div class="kpi"><div class="kpi-label">Newsletter Subscribers</div><div class="kpi-value">${subs.length}</div><div class="kpi-sub">across all pages</div></div>
@@ -173,11 +173,11 @@
         : `<p style="color:var(--gray-400)">No registrations yet.</p>`}
       </div>
 
-      <div class="panel"><h2>Recent Admin Activity (Audit Log)</h2>
+      <div class="panel"><h2>Recent Admin Activity</h2>
         ${HCDB.get("audit").slice(0, 8).map(a => `
           <div style="display:flex; gap:14px; padding:10px 0; border-bottom:1px solid var(--gray-100); font-size:.88rem">
             <span style="color:var(--gray-400); white-space:nowrap">${HC.fmtDate(a.at, { month: "short", day: "numeric" })} ${HC.fmtTime(a.at)}</span>
-            <span><strong>${HC.esc(a.actor)}</strong> — ${HC.esc(a.detail)}</span>
+            <span><strong>${HC.esc(a.actor)}</strong> - ${HC.esc(a.detail)}</span>
           </div>`).join("") || `<p style="color:var(--gray-400)">No activity recorded yet.</p>`}
       </div>`;
   };
@@ -195,20 +195,20 @@
       rows = sortRows(rows, sortKey, sortDir);
       $("users-table").innerHTML = `
         <table class="data"><thead><tr>
-          <th data-sort="firstName">Name <span class="sort-ind">${sortKey === "firstName" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
-          <th data-sort="email">Email <span class="sort-ind">${sortKey === "email" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
+          <th data-sort="firstName">Name <span class="sort-ind">${sortKey === "firstName" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
+          <th data-sort="email">Email <span class="sort-ind">${sortKey === "email" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
           <th>Phone</th>
-          <th data-sort="role">Role <span class="sort-ind">${sortKey === "role" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
+          <th data-sort="role">Role <span class="sort-ind">${sortKey === "role" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
           <th>Verified</th>
-          <th data-sort="createdAt">Joined <span class="sort-ind">${sortKey === "createdAt" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
+          <th data-sort="createdAt">Joined <span class="sort-ind">${sortKey === "createdAt" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
           <th>Permissions</th>
         </tr></thead><tbody>
         ${rows.map(u => `<tr>
           <td><strong>${HC.esc(u.firstName)} ${HC.esc(u.lastName)}</strong></td>
           <td>${HC.esc(u.email)}</td>
-          <td>${HC.esc(u.phone || "—")}</td>
+          <td>${HC.esc(u.phone || "-")}</td>
           <td><span class="status-pill ${u.role}">${u.role}</span></td>
-          <td>${u.verified ? "✅" : "—"}</td>
+          <td>${u.verified ? "Verified" : "-"}</td>
           <td>${HC.fmtDate(u.createdAt, { month: "short", day: "numeric", year: "numeric" })}</td>
           <td>
             <select data-role-for="${u.id}" ${u.id === admin.id ? "disabled" : ""} aria-label="Role for ${HC.esc(u.email)}" style="padding:6px 10px; border-radius:8px; border:1px solid var(--gray-200)">
@@ -221,10 +221,10 @@
 
     main().innerHTML = `
       <div class="admin-head"><h1>User Management</h1>
-        <button class="btn btn-gold btn-sm" id="export-users">⬇ Export to Excel</button>
+        <button class="btn btn-gold btn-sm" id="export-users">Export to Excel</button>
       </div>
       <div class="toolbar">
-        <input type="search" id="user-search" placeholder="Search users by name or email…" aria-label="Search users">
+        <input type="search" id="user-search" placeholder="Search users by name or email..." aria-label="Search users">
       </div>
       <div class="table-wrap" id="users-table"></div>`;
 
@@ -265,14 +265,14 @@
               <span class="tag gold">${HC.esc(ev.category)}</span>
               <h2 style="margin:10px 0 4px">${HC.esc(ev.title)}</h2>
               <p style="color:var(--gray-600); font-size:.9rem; margin:0">
-                📅 ${HC.fmtDate(ev.date)} · ${HC.fmtTime(ev.date)} · 📍 ${HC.esc(ev.location)}<br>
-                🎟️ ${confirmed}/${ev.capacity} confirmed${wait ? ` · ${wait} waitlisted` : ""}
+                ${HC.fmtDate(ev.date)} - ${HC.fmtTime(ev.date)} - ${HC.esc(ev.location)}<br>
+                ${confirmed}/${ev.capacity} confirmed${wait ? ` - ${wait} waitlisted` : ""}
               </p>
             </div>
             <div style="display:flex; gap:8px; flex-wrap:wrap">
               <button class="btn btn-outline btn-sm" data-edit="${ev.id}">Edit</button>
               <button class="btn btn-purple btn-sm" data-regs="${ev.id}">Registrations (${regs.length})</button>
-              <button class="btn btn-gold btn-sm" data-export-regs="${ev.id}">⬇ Excel</button>
+              <button class="btn btn-gold btn-sm" data-export-regs="${ev.id}">Excel</button>
               <button class="btn btn-outline btn-sm" data-delete="${ev.id}" style="color:#b91c1c; border-color:#b91c1c">Delete</button>
             </div>
           </div>
@@ -319,7 +319,7 @@
         ${regs.map(r => `<tr>
           <td><strong>${HC.esc(r.firstName)} ${HC.esc(r.lastName)}</strong></td>
           <td>${HC.esc(r.email)}</td>
-          <td>${HC.esc(r.phone || "—")}</td>
+          <td>${HC.esc(r.phone || "-")}</td>
           <td>${HC.fmtDate(r.createdAt, { month: "short", day: "numeric" })}</td>
           <td><span class="status-pill ${r.status}">${r.status}</span></td>
           <td>
@@ -438,21 +438,21 @@
       $("contacts-table").innerHTML = rows.length ? `
         <table class="data"><thead><tr>
           <th style="cursor:default"><input type="checkbox" id="check-all" ${allChecked ? "checked" : ""} aria-label="Select all"></th>
-          <th data-sort="lastName">Name <span class="sort-ind">${sortKey === "lastName" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
-          <th data-sort="email">Email <span class="sort-ind">${sortKey === "email" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
+          <th data-sort="lastName">Name <span class="sort-ind">${sortKey === "lastName" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
+          <th data-sort="email">Email <span class="sort-ind">${sortKey === "email" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
           <th>Phone</th><th>Organization</th>
-          <th data-sort="eventInterest">Interest <span class="sort-ind">${sortKey === "eventInterest" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
-          <th data-sort="createdAt">Submitted <span class="sort-ind">${sortKey === "createdAt" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
-          <th data-sort="status">Status <span class="sort-ind">${sortKey === "status" ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>
+          <th data-sort="eventInterest">Interest <span class="sort-ind">${sortKey === "eventInterest" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
+          <th data-sort="createdAt">Submitted <span class="sort-ind">${sortKey === "createdAt" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
+          <th data-sort="status">Status <span class="sort-ind">${sortKey === "status" ? (sortDir > 0 ? "Asc" : "Desc") : ""}</span></th>
           <th>Message / Notes</th>
         </tr></thead><tbody>
         ${rows.map(c => `<tr>
           <td><input type="checkbox" data-check="${c.id}" ${selected.has(c.id) ? "checked" : ""} aria-label="Select ${HC.esc(c.email)}"></td>
           <td><strong>${HC.esc(c.firstName)} ${HC.esc(c.lastName)}</strong></td>
           <td>${HC.esc(c.email)}</td>
-          <td>${HC.esc(c.phone || "—")}</td>
-          <td>${HC.esc(c.organization || "—")}</td>
-          <td>${HC.esc(c.eventInterest || "—")}</td>
+          <td>${HC.esc(c.phone || "-")}</td>
+          <td>${HC.esc(c.organization || "-")}</td>
+          <td>${HC.esc(c.eventInterest || "-")}</td>
           <td>${HC.fmtDate(c.createdAt, { month: "short", day: "numeric", year: "numeric" })}</td>
           <td>
             <select data-status="${c.id}" aria-label="Status for ${HC.esc(c.email)}" style="padding:5px 8px; border-radius:8px; border:1px solid var(--gray-200)">
@@ -461,12 +461,12 @@
           </td>
           <td style="max-width:260px">
             <div style="font-size:.85rem; color:var(--gray-600); max-height:54px; overflow:auto">${HC.esc(c.message)}</div>
-            <input data-notes="${c.id}" value="${HC.esc(c.notes || "")}" placeholder="Internal notes…" aria-label="Notes for ${HC.esc(c.email)}"
+            <input data-notes="${c.id}" value="${HC.esc(c.notes || "")}" placeholder="Internal notes..." aria-label="Notes for ${HC.esc(c.email)}"
               style="margin-top:6px; width:100%; padding:5px 8px; border-radius:8px; border:1px solid var(--gray-200); font-size:.82rem">
           </td>
         </tr>`).join("")}
         </tbody></table>`
-        : `<div class="empty-state"><span class="big" aria-hidden="true">📭</span>No contact submissions match your filters.</div>`;
+        : `<div class="empty-state"><span class="big" aria-hidden="true"></span>No contact submissions match your filters.</div>`;
       $("bulk-bar").style.display = selected.size ? "flex" : "none";
       $("selected-count").textContent = selected.size;
       $("result-count").textContent = `${rows.length} submission${rows.length === 1 ? "" : "s"}`;
@@ -477,12 +477,12 @@
     main().innerHTML = `
       <div class="admin-head"><h1>Contact Management</h1>
         <div style="display:flex; gap:10px; flex-wrap:wrap">
-          <button class="btn btn-gold btn-sm" id="export-contacts">⬇ Export to Excel</button>
-          <button class="btn btn-outline btn-sm" id="export-filtered">⬇ Export Filtered</button>
+          <button class="btn btn-gold btn-sm" id="export-contacts">Export to Excel</button>
+          <button class="btn btn-outline btn-sm" id="export-filtered">Export Filtered</button>
         </div>
       </div>
       <div class="toolbar">
-        <input type="search" id="ct-search" placeholder="Search name, email, organization, message…" aria-label="Search contacts">
+        <input type="search" id="ct-search" placeholder="Search name, email, organization, message..." aria-label="Search contacts">
         <select id="ct-status" aria-label="Filter by status">
           <option value="all">All statuses</option>
           ${["new", "contacted", "inprogress", "resolved", "archived"].map(s => `<option value="${s}">${s}</option>`).join("")}
@@ -497,7 +497,7 @@
         <button class="btn btn-purple btn-sm" data-bulk="contacted">Mark Contacted</button>
         <button class="btn btn-purple btn-sm" data-bulk="resolved">Mark Resolved</button>
         <button class="btn btn-outline btn-sm" data-bulk="archived">Archive</button>
-        <button class="btn btn-outline btn-sm" id="bulk-export">⬇ Export Selected</button>
+        <button class="btn btn-outline btn-sm" id="bulk-export">Export Selected</button>
         <button class="btn btn-outline btn-sm" id="bulk-delete" style="color:#b91c1c; border-color:#b91c1c">Delete</button>
       </div>
       <div class="table-wrap" id="contacts-table"></div>`;
@@ -567,21 +567,21 @@
     const subs = HCDB.get("subscribers");
     main().innerHTML = `
       <div class="admin-head"><h1>Volunteers &amp; Donations</h1>
-        <button class="btn btn-gold btn-sm" id="export-community">⬇ Export Volunteers</button>
+        <button class="btn btn-gold btn-sm" id="export-community">Export Volunteers</button>
       </div>
       <div class="panel"><h2>Volunteer Signups (${vols.length})</h2>
         ${vols.length ? `<div class="table-wrap"><table class="data"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role Interest</th><th>Signed Up</th><th>Notes</th></tr></thead><tbody>
-          ${vols.map(v => `<tr><td><strong>${HC.esc(v.firstName)} ${HC.esc(v.lastName)}</strong></td><td>${HC.esc(v.email)}</td><td>${HC.esc(v.phone || "—")}</td><td>${HC.esc(v.role)}</td><td>${HC.fmtDate(v.createdAt, { month: "short", day: "numeric" })}</td><td style="max-width:220px">${HC.esc(v.notes || "")}</td></tr>`).join("")}
+          ${vols.map(v => `<tr><td><strong>${HC.esc(v.firstName)} ${HC.esc(v.lastName)}</strong></td><td>${HC.esc(v.email)}</td><td>${HC.esc(v.phone || "-")}</td><td>${HC.esc(v.role)}</td><td>${HC.fmtDate(v.createdAt, { month: "short", day: "numeric" })}</td><td style="max-width:220px">${HC.esc(v.notes || "")}</td></tr>`).join("")}
         </tbody></table></div>` : `<p style="color:var(--gray-400)">No volunteer signups yet.</p>`}
       </div>
-      <div class="panel"><h2>Donations (${dons.length} · $${dons.reduce((s, d) => s + d.amount, 0).toLocaleString()} total)</h2>
-        ${dons.length ? `<div class="table-wrap"><table class="data"><thead><tr><th>Name</th><th>Email</th><th>Amount</th><th>Frequency</th><th>Campaign</th><th>Date</th></tr></thead><tbody>
-          ${dons.map(d => `<tr><td><strong>${HC.esc(d.firstName)} ${HC.esc(d.lastName)}</strong></td><td>${HC.esc(d.email)}</td><td><strong>$${d.amount.toLocaleString()}</strong></td><td>${d.frequency}</td><td>${HC.esc(d.campaign)}</td><td>${HC.fmtDate(d.createdAt, { month: "short", day: "numeric", year: "numeric" })}</td></tr>`).join("")}
+      <div class="panel"><h2>Donations (${dons.length} - $${dons.reduce((s, d) => s + d.amount, 0).toLocaleString()} total)</h2>
+        ${dons.length ? `<div class="table-wrap"><table class="data"><thead><tr><th>Name</th><th>Email</th><th>Amount</th><th>Frequency</th><th>Campaign</th><th>Email Status</th><th>Date</th></tr></thead><tbody>
+          ${dons.map(d => `<tr><td><strong>${HC.esc(d.firstName)} ${HC.esc(d.lastName)}</strong></td><td>${HC.esc(d.email)}</td><td><strong>$${d.amount.toLocaleString()}</strong></td><td>${d.frequency}</td><td>${HC.esc(d.campaign)}</td><td>${HCDB.get("outbox").some(m => m.meta?.donationId === d.id) ? "Receipt queued" : "Pending"}</td><td>${HC.fmtDate(d.createdAt, { month: "short", day: "numeric", year: "numeric" })}</td></tr>`).join("")}
         </tbody></table></div>` : `<p style="color:var(--gray-400)">No donations recorded yet.</p>`}
       </div>
       <div class="panel"><h2>Newsletter Subscribers (${subs.length})</h2>
         ${subs.length ? `<div class="table-wrap"><table class="data"><thead><tr><th>Email</th><th>Source Page</th><th>Subscribed</th></tr></thead><tbody>
-          ${subs.map(s => `<tr><td>${HC.esc(s.email)}</td><td>${HC.esc(s.source || "—")}</td><td>${HC.fmtDate(s.createdAt, { month: "short", day: "numeric", year: "numeric" })}</td></tr>`).join("")}
+          ${subs.map(s => `<tr><td>${HC.esc(s.email)}</td><td>${HC.esc(s.source || "-")}</td><td>${HC.fmtDate(s.createdAt, { month: "short", day: "numeric", year: "numeric" })}</td></tr>`).join("")}
         </tbody></table></div>` : `<p style="color:var(--gray-400)">No subscribers yet.</p>`}
       </div>`;
     $("export-community").addEventListener("click", () => {
@@ -600,7 +600,7 @@
     admin = HCAuth.requireRole(["admin", "coordinator"]);
     if (!admin) return;
 
-    $("admin-user").textContent = `${admin.firstName} ${admin.lastName} · ${admin.role}`;
+    $("admin-user").textContent = `${admin.firstName} ${admin.lastName} - ${admin.role}`;
     $("admin-logout").addEventListener("click", () => { HCAuth.logout(); location.href = "index.html"; });
 
     const links = document.querySelectorAll("[data-view]");
