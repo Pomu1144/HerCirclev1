@@ -47,7 +47,7 @@ const HC = (() => {
       <nav class="nav" aria-label="Main navigation">
         <div class="nav-inner">
           <a class="nav-logo" href="index.html" aria-label="HER Circle home">
-            <span class="mark" aria-hidden="true">HC</span><span>HER <em>Circle</em></span>
+            <img src="assets/logo/logoC1.png" alt="HER Circle logo" class="nav-logo-img">
           </a>
           <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
             <span></span><span></span><span></span>
@@ -55,7 +55,7 @@ const HC = (() => {
           <ul class="nav-links" id="nav-menu">${links}</ul>
           <div class="nav-cta">
             ${account}
-            <a class="btn btn-gold btn-sm" href="support.html">Donate</a>
+            <a class="btn btn-purple btn-sm" href="support.html">Donate</a>
           </div>
         </div>
       </nav>`;
@@ -88,7 +88,7 @@ const HC = (() => {
         <div class="container">
           <div class="footer-grid">
             <div class="footer-brand">
-              <a class="nav-logo" href="index.html"><span class="mark" aria-hidden="true">HC</span><span>HER <em>Circle</em></span></a>
+              <a class="nav-logo" href="index.html"><img src="assets/logo/logoC1.png" alt="HER Circle logo" class="nav-logo-img"></a>
               <p>A community where ambitious women connect, collaborate, grow, and succeed together.</p>
               <div class="social-row">
                 <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
@@ -177,7 +177,7 @@ const HC = (() => {
         if (d.y < 0 || d.y > h) d.vy *= -1;
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = d.gold ? `rgba(212,175,55,${d.a})` : `rgba(255,255,255,${d.a * .7})`;
+        ctx.fillStyle = d.gold ? `rgba(141,125,218,${d.a})` : `rgba(255,255,255,${d.a * .7})`;
         ctx.fill();
       }
       requestAnimationFrame(tick);
