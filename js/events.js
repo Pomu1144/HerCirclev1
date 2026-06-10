@@ -1,5 +1,5 @@
 /* ============================================================
-   HER Circle — Events page
+   HER Circle - Events page
    Cards, search/filter/category, detail modal, registration
    with capacity tracking, waitlist, RSVP, reminder opt-in.
    ============================================================ */
@@ -33,7 +33,7 @@
         <div class="bar" role="progressbar" aria-valuenow="${confirmed}" aria-valuemin="0" aria-valuemax="${ev.capacity}" aria-label="Registration capacity">
           <div class="fill" style="width:${pct}%"></div>
         </div>
-        <div class="cap-label">${full ? `Full — waitlist open (${confirmed}/${ev.capacity})` : `${confirmed}/${ev.capacity} registered`}</div>
+        <div class="cap-label">${full ? `Full - waitlist open (${confirmed}/${ev.capacity})` : `${confirmed}/${ev.capacity} registered`}</div>
       </div>`;
   }
 
@@ -48,9 +48,9 @@
         <div class="event-body">
           <h3>${HC.esc(ev.title)}</h3>
           <div class="event-meta">
-            <span>📅 ${HC.fmtDate(ev.date, { month: "short", day: "numeric", year: "numeric" })}</span>
-            <span>🕐 ${HC.fmtTime(ev.date)}</span>
-            <span>📍 ${HC.esc(ev.location)}</span>
+            <span>${HC.fmtDate(ev.date, { month: "short", day: "numeric", year: "numeric" })}</span>
+            <span>${HC.fmtTime(ev.date)}</span>
+            <span>${HC.esc(ev.location)}</span>
           </div>
           <p class="event-desc">${HC.esc(ev.description)}</p>
           <div class="event-foot">
@@ -64,7 +64,7 @@
   function render() {
     const evs = upcomingEvents();
     if (!evs.length) {
-      listEl.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="big" aria-hidden="true">🔍</span>No events match your search. Try a different filter.</div>`;
+      listEl.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="big" aria-hidden="true"></span>No events match your search. Try a different filter.</div>`;
       return;
     }
     listEl.innerHTML = evs.map(cardHtml).join("");
@@ -81,19 +81,19 @@
     const hours = Math.floor(ev.durationMins / 60), mins = ev.durationMins % 60;
 
     modal.querySelector(".modal").innerHTML = `
-      <button class="modal-close" aria-label="Close dialog">✕</button>
+      <button class="modal-close" aria-label="Close dialog">X</button>
       <span class="tag gold">${HC.esc(ev.category)}</span>
       <h2 id="modal-title" style="font-size:1.7rem; margin-top:14px">${HC.esc(ev.title)}</h2>
       <div class="event-meta" style="margin:14px 0 18px">
-        <span>📅 ${HC.fmtDate(ev.date)}</span>
-        <span>🕐 ${HC.fmtTime(ev.date)} · ${hours ? hours + "h" : ""}${mins ? " " + mins + "m" : ""}</span>
-        <span>📍 ${HC.esc(ev.location)}</span>
-        <span>🎟️ ${HC.esc(ev.price)}</span>
+        <span>${HC.fmtDate(ev.date)}</span>
+        <span>${HC.fmtTime(ev.date)} - ${hours ? hours + "h" : ""}${mins ? " " + mins + "m" : ""}</span>
+        <span>${HC.esc(ev.location)}</span>
+        <span>${HC.esc(ev.price)}</span>
       </div>
       ${capacityHtml(ev)}
       <p style="color:var(--gray-600); margin-top:18px">${HC.esc(ev.description)}</p>
       <p style="color:var(--gray-600); font-size:.92rem"><strong>Good to know:</strong> ${HC.esc(ev.details)}</p>
-      ${full ? `<p class="impact-calc-result" style="margin-bottom:18px">This event is at capacity — register below to join the <strong>waitlist</strong> and we'll confirm you automatically if a spot opens.</p>` : ""}
+      ${full ? `<p class="impact-calc-result" style="margin-bottom:18px">This event is at capacity - register below to join the <strong>waitlist</strong> and we'll confirm you automatically if a spot opens.</p>` : ""}
       <form id="rsvp-form" novalidate style="margin-top:10px">
         <h3 style="font-size:1.15rem">${full ? "Join the Waitlist" : "Reserve Your Spot"}</h3>
         <div class="form-grid">
@@ -167,15 +167,15 @@
     const box = form.querySelector("#rsvp-success");
     box.classList.add("show");
     if (result.status === "confirmed") {
-      box.innerHTML = `🎉 <strong>You're registered!</strong> A confirmation email has been sent to ${HC.esc(get("email"))}. We can't wait to see you at ${HC.esc(ev.title)}.`;
+      box.innerHTML = ` <strong>You're registered!</strong> A confirmation email has been sent to ${HC.esc(get("email"))}. We can't wait to see you at ${HC.esc(ev.title)}.`;
       HC.toast("Registration confirmed! Check your email.", "success");
     } else {
-      box.innerHTML = `💜 <strong>You're on the waitlist.</strong> We'll email ${HC.esc(get("email"))} the moment a spot opens.`;
-      HC.toast("Added to waitlist — we'll notify you if a spot opens.", "success");
+      box.innerHTML = ` <strong>You're on the waitlist.</strong> We'll email ${HC.esc(get("email"))} the moment a spot opens.`;
+      HC.toast("Added to waitlist. We will notify you if a spot opens.", "success");
     }
     form.querySelector("button[type=submit]").disabled = true;
     // Simulated transactional email (production: SendGrid/Resend via API route)
-    console.info(`[HER Circle] Confirmation email queued → ${get("email")} (${result.status}) for "${ev.title}"`);
+    console.info(`[HER Circle] Confirmation email queued Sign In: ${get("email")} (${result.status}) for "${ev.title}"`);
   }
 
   /* ---------- Boot ---------- */

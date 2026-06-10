@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In / Join — HER Circle</title>
+  <title>Sign In / Join - HER Circle</title>
   <meta name="description" content="Sign in to your HER Circle account or join the community.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#2E1065">
@@ -31,6 +31,11 @@
       <section id="panel-login" role="tabpanel" aria-labelledby="tab-login">
         <h1>Welcome Back</h1>
         <p class="auth-sub">Sign in to manage your events and profile.</p>
+        <div class="demo-credentials" aria-label="Default demo login credentials">
+          <strong>Default access for review</strong>
+          <div>Admin dashboard: <code>admin@hercircle.org</code> / <code>Admin123!</code></div>
+          <div>Member profile: <code>member@hercircle.org</code> / <code>Member123!</code></div>
+        </div>
         <form id="login-form" novalidate>
           <div class="form-grid" style="grid-template-columns:1fr">
             <div class="field"><label for="li-email">Email</label><input id="li-email" type="email" autocomplete="email" required><span class="error-msg">Enter a valid email.</span></div>
@@ -45,7 +50,7 @@
       <!-- SIGNUP -->
       <section id="panel-signup" role="tabpanel" aria-labelledby="tab-signup" hidden>
         <h1>Join the Circle</h1>
-        <p class="auth-sub">Create your free account — it takes a minute.</p>
+        <p class="auth-sub">Create your free account - it takes a minute.</p>
         <form id="signup-form" novalidate>
           <div class="form-grid">
             <div class="field"><label for="su-first">First Name</label><input id="su-first" autocomplete="given-name" required><span class="error-msg">Required.</span></div>
@@ -73,7 +78,7 @@
           <div class="field"><label for="fg-email">Email</label><input id="fg-email" type="email" autocomplete="email" required><span class="error-msg">Enter a valid email.</span></div>
           <div class="form-success" id="forgot-msg" role="status" style="margin-top:14px"></div>
           <button class="btn btn-purple" type="submit" style="width:100%; margin-top:20px">Send Reset Link</button>
-          <p class="auth-switch"><a href="#" id="back-login">← Back to sign in</a></p>
+          <p class="auth-switch"><a href="#" id="back-login">Back: Back to sign in</a></p>
         </form>
       </section>
 
@@ -116,7 +121,7 @@
       // Email verification link (?verify=token)
       if (params.get("verify")) {
         const res = HCAuth.verifyEmail(params.get("verify"));
-        HC.toast(res.ok ? "✅ Email verified! You can now sign in." : res.message, res.ok ? "success" : "error");
+        HC.toast(res.ok ? " Email verified. You can now sign in." : res.message, res.ok ? "success" : "error");
       }
       // Password reset link (?reset=token)
       if (params.get("reset")) show("panel-reset");
@@ -136,7 +141,7 @@
         if (!emailOk || !passOk) return;
         const res = await HCAuth.login($("li-email").value, $("li-pass").value);
         if (!res.ok) { HC.toast(res.message, "error"); return; }
-        HC.toast(`Welcome back, ${res.user.firstName}!`, "success");
+        HC.toast(`Welcome back, ${res.user.firstName}.`, "success");
         setTimeout(() => location.href = redirectFor(res.user), 600);
       });
 
@@ -164,8 +169,8 @@
         if (!res.ok) { HC.toast(res.message, "error"); return; }
         const box = $("signup-msg");
         box.classList.add("show");
-        box.innerHTML = `🎉 <strong>Account created!</strong> We've sent a verification email.
-          <br><small>(Demo: <a href="auth.html?verify=${res.verifyToken}">click here to verify your email</a> — production sends a real email.)</small>`;
+        box.innerHTML = `<strong>Account created.</strong> We've sent a verification email.
+          <br><small>(Demo: <a href="auth.html?verify=${res.verifyToken}">click here to verify your email</a> - production sends a real email.)</small>`;
         e.target.reset();
         bar.style.width = "0";
       });
@@ -193,7 +198,7 @@
         if (!res.ok) { HC.toast(res.message, "error"); return; }
         const box = $("reset-msg");
         box.classList.add("show");
-        box.innerHTML = `✅ <strong>Password updated.</strong> You can now sign in.`;
+        box.innerHTML = `<strong>Password updated.</strong> You can now sign in.`;
         setTimeout(() => { show("panel-login"); }, 1500);
       });
     });

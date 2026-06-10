@@ -1,5 +1,5 @@
 /* ============================================================
-   HER Circle — Authentication
+   HER Circle - Authentication
    Client-side demo auth: salted SHA-256 via WebCrypto, session in
    localStorage, role-based access (visitor/user/coordinator/admin).
    Production swap: Auth.js or JWT + bcrypt server-side (see README).
@@ -64,7 +64,7 @@ const HCAuth = (() => {
     if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) s++;
     if (/[0-9]/.test(pw)) s++;
     if (/[^A-Za-z0-9]/.test(pw)) s++;
-    return Math.min(s, 4); // 0–4
+    return Math.min(s, 4); // 0-4
   }
 
   async function signUp({ firstName, lastName, email, phone, password }) {
@@ -85,7 +85,13 @@ const HCAuth = (() => {
       verified: false, verifyToken, salt,
       passwordHash: await HCDB.sha256(password + salt)
     });
-    // Demo: email verification simulated with an in-app link (production: transactional email)
+    HCDB.queueEmail({
+      to: email,
+      subject: "Verify your HER Circle account",
+      type: "account-verification",
+      meta: { userId: user.id },
+      message: `Welcome to HER Circle. Verify your account here: ${location.origin}${location.pathname}?verify=${verifyToken}`
+    });
     return { ok: true, user, verifyToken };
   }
 
@@ -122,6 +128,13 @@ const HCAuth = (() => {
     if (!user) return { ok: true, token: null };
     const token = HCDB.uid();
     HCDB.update("users", user.id, { resetToken: token, resetExpires: Date.now() + 30 * 60 * 1000 });
+    HCDB.queueEmail({
+      to: email,
+      subject: "Reset your HER Circle password",
+      type: "password-reset",
+      meta: { userId: user.id },
+      message: `Reset your HER Circle password here: ${location.origin}${location.pathname}?reset=${token}. This link expires in 30 minutes.`
+    });
     return { ok: true, token };
   }
 

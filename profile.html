@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile — HER Circle</title>
+  <title>My Profile - HER Circle</title>
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#2E1065">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
@@ -29,7 +29,7 @@
           <div class="form-grid">
             <div class="field"><label for="pf-first">First Name</label><input id="pf-first" required><span class="error-msg">Required.</span></div>
             <div class="field"><label for="pf-last">Last Name</label><input id="pf-last" required><span class="error-msg">Required.</span></div>
-            <div class="field"><label for="pf-email">Email</label><input id="pf-email" disabled><span class="hint">Email changes require support — contact us.</span></div>
+            <div class="field"><label for="pf-email">Email</label><input id="pf-email" disabled><span class="hint">Email changes require support - contact us.</span></div>
             <div class="field"><label for="pf-phone">Phone</label><input id="pf-phone" type="tel"></div>
           </div>
           <button class="btn btn-purple btn-sm" type="submit" style="margin-top:20px">Save Changes</button>
@@ -73,7 +73,7 @@
       if (!user.verified) {
         const note = document.createElement("p");
         note.className = "impact-calc-result";
-        note.innerHTML = `⚠️ Your email isn't verified yet. Check your inbox for the verification link.`;
+        note.innerHTML = `Notice: Your email isn't verified yet. Check your inbox for the verification link.`;
         $("account-panel").prepend(note);
       }
 
@@ -84,7 +84,7 @@
         const res = await HCAuth.updateProfile({
           firstName: $("pf-first").value, lastName: $("pf-last").value, phone: $("pf-phone").value
         });
-        HC.toast(res.ok ? "Profile updated!" : res.message, res.ok ? "success" : "error");
+        HC.toast(res.ok ? "Profile updated." : res.message, res.ok ? "success" : "error");
       });
 
       $("password-form").addEventListener("submit", async e => {
@@ -92,7 +92,7 @@
         const res = await HCAuth.updateProfile({
           currentPassword: $("pw-current").value, newPassword: $("pw-new").value
         });
-        HC.toast(res.ok ? "Password updated!" : res.message, res.ok ? "success" : "error");
+        HC.toast(res.ok ? "Password updated." : res.message, res.ok ? "success" : "error");
         if (res.ok) e.target.reset();
       });
 
@@ -100,7 +100,7 @@
       const regs = HCDB.get("registrations").filter(r => r.email === user.email);
       const wrap = $("my-registrations");
       if (!regs.length) {
-        wrap.innerHTML = `<div class="empty-state"><span class="big" aria-hidden="true">🎟️</span>No registrations yet. <a href="events.html">Find your first event →</a></div>`;
+        wrap.innerHTML = `<div class="empty-state"><span class="big" aria-hidden="true"></span>No registrations yet. <a href="events.html">Find your first event -></a></div>`;
       } else {
         wrap.innerHTML = `<div class="table-wrap"><table class="data"><thead><tr>
           <th>Event</th><th>Status</th><th>Registered</th><th></th></tr></thead><tbody>` +
