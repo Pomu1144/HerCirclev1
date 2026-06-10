@@ -47,7 +47,7 @@ const HC = (() => {
       <nav class="nav" aria-label="Main navigation">
         <div class="nav-inner">
           <a class="nav-logo" href="index.html" aria-label="HER Circle home">
-            <img src="assets/logo/logoC1.png" alt="HER Circle logo" class="nav-logo-img">
+            <img src="assets/logo/logoC1.png" alt="" class="nav-logo-img"><span class="nav-logo-text">Her Circle</span>
           </a>
           <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
             <span></span><span></span><span></span>
@@ -88,7 +88,7 @@ const HC = (() => {
         <div class="container">
           <div class="footer-grid">
             <div class="footer-brand">
-              <a class="nav-logo" href="index.html"><img src="assets/logo/logoC1.png" alt="HER Circle logo" class="nav-logo-img"></a>
+              <a class="nav-logo" href="index.html"><img src="assets/logo/logoC1.png" alt="" class="nav-logo-img"><span class="nav-logo-text">Her Circle</span></a>
               <p>A community where ambitious women connect, collaborate, grow, and succeed together.</p>
               <div class="social-row">
                 <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
