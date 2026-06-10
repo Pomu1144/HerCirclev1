@@ -132,6 +132,20 @@ const HC = (() => {
       </footer>`;
   }
 
+
+  /* ---------- Homepage opener video ---------- */
+  function initOpenerVideo() {
+    const video = document.querySelector(".hero-opener-video");
+    if (!video) return;
+    video.addEventListener("error", () => video.classList.add("is-unavailable"));
+    video.querySelectorAll("source").forEach(source => {
+      source.addEventListener("error", () => video.classList.add("is-unavailable"));
+    });
+    video.play?.().catch(() => {
+      // Autoplay can be blocked by browser policy; the visual fallback remains visible.
+    });
+  }
+
   /* ---------- Particles (lightweight canvas) ---------- */
   function initParticles() {
     const canvas = document.getElementById("particles");
@@ -314,6 +328,7 @@ const HC = (() => {
     await HCDB.ready;
     renderNav();
     renderFooter();
+    initOpenerVideo();
     initParticles();
     initReveals();
     initCounters();
