@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Feed - HER Circle</title>
+  <meta name="description" content="Connect, share, and grow with the HER Circle community.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#2E1065">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-nav="solid">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="site-nav"></div>
+
+  <main id="main" class="feed-page">
+    <div class="container">
+      <div class="feed-layout">
+
+        <!-- Left: Profile Card -->
+        <aside class="feed-left" aria-label="Profile summary">
+          <div id="feed-profile-card"></div>
+        </aside>
+
+        <!-- Center: Post Feed -->
+        <section class="feed-center" aria-label="Community feed">
+
+          <!-- Create post box -->
+          <div class="create-post-box panel">
+            <div class="create-post-trigger-row">
+              <div id="feed-avatar-trigger"></div>
+              <button class="create-post-trigger" id="create-post-trigger" aria-label="Create a post">What's on your mind?</button>
+            </div>
+            <div class="create-post-types">
+              <button class="post-type-btn" data-type="general" aria-label="Create a general post">&#128172; Post</button>
+              <button class="post-type-btn" data-type="job" aria-label="Post a job">&#128188; Job</button>
+              <button class="post-type-btn" data-type="event" aria-label="Post an event">&#128197; Event</button>
+            </div>
+          </div>
+
+          <!-- Post feed -->
+          <div id="feed-posts-container" aria-live="polite" aria-label="Posts"></div>
+        </section>
+
+        <!-- Right: Sidebar -->
+        <aside class="feed-right" aria-label="Community sidebar">
+          <div class="panel" style="margin-bottom:20px">
+            <div class="panel-section-title">People You May Know</div>
+            <div id="people-suggestions"></div>
+            <a href="#" class="see-all">See all members</a>
+          </div>
+          <div class="panel">
+            <div class="panel-section-title">Suggested Jobs <a href="jobs.html" class="see-all" style="float:right">See all</a></div>
+            <div id="job-suggestions"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Post creation modal -->
+  <div id="post-modal-overlay" class="post-modal-overlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="post-modal-title">
+    <div class="post-modal panel" id="post-modal">
+      <div class="post-modal-header">
+        <h2 id="post-modal-title">Create a Post</h2>
+        <button class="pm-close-btn modal-close" id="pm-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="post-modal-body">
+        <form id="create-post-form" novalidate>
+          <div class="field" style="margin-bottom:16px">
+            <label for="pm-type" class="label">Post Type</label>
+            <select id="pm-type" class="pm-type-select pm-select">
+              <option value="general">General Post</option>
+              <option value="job">Job Posting</option>
+              <option value="event">Event</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:16px">
+            <label for="pm-content" class="label">Content</label>
+            <textarea id="pm-content" class="pm-content-input" rows="4" placeholder="Share something with the community..." style="width:100%;padding:12px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit;font-size:.95rem;resize:vertical"></textarea>
+          </div>
+          <!-- Job extra fields -->
+          <div class="pm-job-extra pm-extra" id="pm-job-fields" style="display:none">
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-job-title">Job Title</label>
+              <input id="pm-job-title" type="text" placeholder="e.g. Marketing Manager" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-job-company">Company</label>
+              <input id="pm-job-company" type="text" placeholder="Company name" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-job-location">Location</label>
+              <input id="pm-job-location" type="text" placeholder="e.g. Remote, New York, NY" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-job-salary">Salary Range</label>
+              <input id="pm-job-salary" type="text" placeholder="e.g. $60k-$80k" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-job-url">Apply URL (optional)</label>
+              <input id="pm-job-url" type="url" placeholder="https://..." style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+          </div>
+          <!-- Event extra fields -->
+          <div class="pm-event-extra pm-extra" id="pm-event-fields" style="display:none">
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-event-name">Event Name</label>
+              <input id="pm-event-name" type="text" placeholder="Event name" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-event-date">Date &amp; Time</label>
+              <input id="pm-event-date" type="datetime-local" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+            <div class="field" style="margin-bottom:12px">
+              <label class="label" for="pm-event-location">Location</label>
+              <input id="pm-event-location" type="text" placeholder="Venue or Virtual" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="post-modal-footer">
+        <button class="btn btn-outline btn-sm pm-close-btn-footer" onclick="document.getElementById('post-modal-overlay').style.display='none';document.body.style.overflow=''">Cancel</button>
+        <button class="btn btn-purple btn-sm pm-submit-btn" id="pm-submit">Post</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/feed.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await HCDB.ready;
+      const user = HCAuth.requireRole(["user", "coordinator", "admin"]);
+      if (!user) return;
+
+      HCFeed.renderFeedProfileCard("feed-profile-card", user);
+
+      const avatarTrigger = document.getElementById("feed-avatar-trigger");
+      if (avatarTrigger) avatarTrigger.innerHTML = HCFeed.avatarHTML(user, "sm");
+
+      HCFeed.renderFeed("feed-posts-container", user.id);
+      HCFeed.bindFeedEvents("feed-posts-container", user.id);
+      HCFeed.initCreatePost(user);
+      HCFeed.renderPeopleSuggestions("people-suggestions", user.id);
+      HCFeed.renderJobSuggestions("job-suggestions");
+
+      // Quick type buttons open the modal preset to the chosen type
+      document.querySelectorAll(".post-type-btn[data-type]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const sel = document.getElementById("pm-type");
+          if (sel) { sel.value = btn.dataset.type; sel.dispatchEvent(new Event("change")); }
+          document.getElementById("create-post-trigger").click();
+        });
+      });
+    });
+  </script>
+</body>
+</html>

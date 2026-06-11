@@ -128,7 +128,7 @@
 
       function redirectFor(user) {
         if (next) return next;
-        return (user.role === "admin" || user.role === "coordinator") ? "admin.html" : "profile.html";
+        return (user.role === "admin" || user.role === "coordinator") ? "admin.html" : "feed.html";
       }
 
       /* Login */

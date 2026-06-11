@@ -6,7 +6,7 @@
 
 const HCDB = (() => {
   const PREFIX = "hc_";
-  const VERSION = 4;
+  const VERSION = 5;
 
   function read(key, fallback) {
     try {
@@ -135,6 +135,190 @@ const HCDB = (() => {
     { id: "camp-mentorship", title: "Mentorship Program Growth", goal: 15000, raised: 11200, description: "Training, matching, and supporting 100 new mentor-mentee pairs this year." }
   ];
 
+  const SEED_COMMUNITY_USERS = [
+    { id: "uid-priya-sharma", firstName: "Priya", lastName: "Sharma", email: "priya@hercircle.org", phone: "(555) 020-1001", role: "user", headline: "Business Coach & Mentor", bio: "15 years helping women founders scale to 7 figures. Passionate about closing the funding gap.", verified: true, isMentor: true },
+    { id: "uid-diana-wells", firstName: "Diana", lastName: "Wells", email: "diana@hercircle.org", phone: "(555) 020-1002", role: "user", headline: "Executive Director | Nonprofit Leader", bio: "Building community infrastructure for the next generation of women leaders.", verified: true, isMentor: true },
+    { id: "uid-kezia-obi", firstName: "Kezia", lastName: "Obi", email: "kezia@hercircle.org", phone: "(555) 020-1003", role: "user", headline: "Founder at LuminaBox | E-commerce", bio: "Turned a side hustle into a 6-figure brand. HER Circle changed everything for me.", verified: true, isMentor: false },
+    { id: "uid-sofia-reyes", firstName: "Sofia", lastName: "Reyes", email: "sofia@hercircle.org", phone: "(555) 020-1004", role: "user", headline: "UX Designer | Creative Director", bio: "Design should be accessible to everyone. Building tools that empower underrepresented founders.", verified: true, isMentor: false },
+    { id: "uid-naomi-chen", firstName: "Naomi", lastName: "Chen", email: "naomi@hercircle.org", phone: "(555) 020-1005", role: "user", headline: "Marketing Director at Vantage Co.", bio: "Brand storytelling and growth marketing for women-led businesses.", verified: true, isMentor: false }
+  ];
+
+  const SEED_POSTS = [
+    {
+      id: "post-priya-1",
+      authorId: "uid-priya-sharma",
+      type: "general",
+      content: "The most powerful thing you can do as a woman entrepreneur is invest in your own learning. Every dollar you put into your skills comes back tenfold. 15 years in business coaching has proven this to me over and over. Who else is committed to growth this quarter?",
+      likes: ["uid-diana-wells", "uid-kezia-obi", "uid-sofia-reyes"],
+      comments: [
+        { id: "cmt-p1-1", authorId: "uid-diana-wells", text: "Yes! This is the foundation of everything. Raising my hand for growth this quarter!", createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString() }
+      ],
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString()
+    },
+    {
+      id: "post-diana-1",
+      authorId: "uid-diana-wells",
+      type: "job",
+      content: "Exciting opportunity at HER Circle! We are looking for a passionate Head of Community to help scale our impact. If you know someone who would be a great fit, please share!",
+      jobData: { title: "Head of Community", company: "HER Circle", location: "Remote", salary: "$75k-$95k", applyUrl: "" },
+      likes: ["uid-priya-sharma", "uid-naomi-chen"],
+      comments: [
+        { id: "cmt-d1-1", authorId: "uid-sofia-reyes", text: "Sharing this with my network right now!", createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString() }
+      ],
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString()
+    },
+    {
+      id: "post-kezia-1",
+      authorId: "uid-kezia-obi",
+      type: "general",
+      content: "Two years ago I was packaging orders in my kitchen. This week LuminaBox hit $500k in revenue. None of this would have happened without HER Circle, my mentor Priya, and this incredible community. Your network is your net worth, and mine is priceless.",
+      likes: ["uid-priya-sharma", "uid-diana-wells", "uid-sofia-reyes", "uid-naomi-chen"],
+      comments: [
+        { id: "cmt-k1-1", authorId: "uid-priya-sharma", text: "Watching your journey has been one of my greatest privileges. Keep going!", createdAt: new Date(Date.now() - 1000 * 60 * 20).toISOString() },
+        { id: "cmt-k1-2", authorId: "uid-diana-wells", text: "This is exactly what HER Circle is for. Congratulations Kezia!", createdAt: new Date(Date.now() - 1000 * 60 * 15).toISOString() }
+      ],
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString()
+    },
+    {
+      id: "post-naomi-1",
+      authorId: "uid-naomi-chen",
+      type: "event",
+      content: "Mark your calendars! We are hosting Pitch Night: Women in Tech in 10 days. Come ready to pitch, connect with investors, and support your fellow founders. Spots are limited — register early!",
+      eventData: { name: "Pitch Night: Women in Tech", date: futureDate(10), location: "HER Circle Hub" },
+      likes: ["uid-priya-sharma", "uid-kezia-obi"],
+      comments: [
+        { id: "cmt-n1-1", authorId: "uid-sofia-reyes", text: "Already registered! Cannot wait.", createdAt: new Date(Date.now() - 1000 * 60 * 60).toISOString() }
+      ],
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString()
+    },
+    {
+      id: "post-sofia-1",
+      authorId: "uid-sofia-reyes",
+      type: "general",
+      content: "Hot take: most startup websites fail not because of bad product but because of bad UX. I have audited 40+ women-led business sites and the pattern is clear: unclear value prop above the fold, no social proof, and a CTA that's buried. Your website is your hardest-working employee. Invest in it.",
+      likes: ["uid-naomi-chen", "uid-kezia-obi"],
+      comments: [
+        { id: "cmt-s1-1", authorId: "uid-naomi-chen", text: "Every marketer needs to read this. The CTA point is so real.", createdAt: new Date(Date.now() - 1000 * 60 * 90).toISOString() }
+      ],
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 18).toISOString()
+    },
+    {
+      id: "post-naomi-2",
+      authorId: "uid-naomi-chen",
+      type: "job",
+      content: "Bloom Media is hiring a Marketing Manager! Great role for someone ready to step into a leadership position at a fast-growing agency. Full-time, NYC hybrid. Apply link in the job card below.",
+      jobData: { title: "Marketing Manager", company: "Bloom Media", location: "New York, NY", salary: "$65k-$80k", applyUrl: "" },
+      likes: ["uid-diana-wells", "uid-sofia-reyes"],
+      comments: [],
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString()
+    }
+  ];
+
+  const SEED_JOBS_BOARD = [
+    {
+      id: "job-head-community",
+      title: "Head of Community",
+      company: "HER Circle",
+      location: "Remote",
+      type: "Full-time",
+      salary: "$75k-$95k",
+      description: "As Head of Community at HER Circle, you will be the architect of our member experience. You'll design and oversee programming, manage community coordinators, build partnerships, and ensure every member feels genuinely supported on their journey. You'll work directly with our Executive Director and report to the Board on community health metrics.",
+      requirements: [
+        "5+ years experience in community management, program management, or nonprofit leadership",
+        "Demonstrated ability to build and scale engaged communities (online and in-person)",
+        "Strong interpersonal and public speaking skills; experience facilitating group workshops",
+        "Data-driven mindset with experience using community metrics to inform decisions",
+        "Deep commitment to gender equity and women's entrepreneurship"
+      ],
+      postedBy: "uid-diana-wells",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString()
+    },
+    {
+      id: "job-ux-lead",
+      title: "UX Design Lead",
+      company: "Lumina Creative",
+      location: "New York, NY",
+      type: "Full-time",
+      salary: "$90k-$115k",
+      description: "Lumina Creative is looking for a UX Design Lead to own the design process from research through delivery. You'll lead a small team of designers, collaborate closely with product and engineering, and champion user-centered design practices across all client work. Our clients are predominantly women-owned businesses and mission-driven organizations.",
+      requirements: [
+        "7+ years of UX/product design experience with a strong portfolio demonstrating end-to-end design process",
+        "Experience leading and mentoring a design team of 2-5 designers",
+        "Proficiency in Figma and design systems methodology",
+        "Strong user research skills including usability testing, interviews, and synthesis",
+        "Excellent communication skills and ability to present design rationale to stakeholders"
+      ],
+      postedBy: "uid-sofia-reyes",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString()
+    },
+    {
+      id: "job-mktg-mgr",
+      title: "Marketing Manager",
+      company: "Bloom Media",
+      location: "Hybrid - NYC",
+      type: "Full-time",
+      salary: "$65k-$80k",
+      description: "Bloom Media is a boutique marketing agency specializing in growth marketing for women-led brands. We are looking for a Marketing Manager who can develop and execute multi-channel campaigns, manage client relationships, and mentor junior team members. You'll work on a portfolio of 8-12 exciting brands across e-commerce, wellness, and professional services.",
+      requirements: [
+        "4+ years of marketing experience, agency background preferred",
+        "Hands-on experience with paid social, email marketing, and SEO/content strategy",
+        "Strong analytical skills with experience reporting on campaign performance",
+        "Excellent project management skills and ability to manage multiple client accounts simultaneously",
+        "Experience with tools such as HubSpot, Meta Ads Manager, and Google Analytics"
+      ],
+      postedBy: "uid-naomi-chen",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString()
+    },
+    {
+      id: "job-biz-dev",
+      title: "Business Development Lead",
+      company: "Vantage Legal Partners",
+      location: "Chicago, IL",
+      type: "Full-time",
+      salary: "$80k-$100k + commission",
+      description: "Vantage Legal Partners is a woman-owned law firm seeking a Business Development Lead to drive growth through strategic partnerships, speaking opportunities, and relationship-based sales. You'll work with our partners to identify new client verticals and develop outreach strategies that reflect our firm's values and commitment to underrepresented clients.",
+      requirements: [
+        "5+ years in business development, sales, or strategic partnerships — legal or professional services background a plus",
+        "Track record of hitting revenue targets and building long-term client relationships",
+        "Exceptional networking skills and comfort presenting to C-suite and executive audiences",
+        "Experience developing proposals, pitch decks, and business cases",
+        "Proficiency in Salesforce or similar CRM platform"
+      ],
+      postedBy: "uid-priya-sharma",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString()
+    },
+    {
+      id: "job-brand-mgr",
+      title: "Brand & Content Manager",
+      company: "LuminaBox",
+      location: "Remote",
+      type: "Contract",
+      salary: "$50-$70/hr",
+      description: "LuminaBox is a fast-growing e-commerce brand looking for a Brand & Content Manager on a contract basis (20-30 hrs/week) to own our brand voice, manage content creation, and oversee social media channels. You'll work directly with the founder and have real creative ownership over how LuminaBox shows up in the world.",
+      requirements: [
+        "3+ years of brand management or content marketing experience",
+        "Strong copywriting skills and an eye for visual brand consistency",
+        "Experience managing social channels (Instagram, TikTok, Pinterest) for a consumer brand",
+        "Familiarity with e-commerce platforms (Shopify preferred) and basic email marketing",
+        "Self-directed with the ability to manage your own workflow and deadlines remotely"
+      ],
+      postedBy: "uid-kezia-obi",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 96).toISOString()
+    }
+  ];
+
+  const SEED_JOB_COMMENTS = [
+    { id: "jc-1", jobId: "job-head-community", authorId: "uid-priya-sharma", isMentor: true, text: "This role is a rare opportunity to shape a community from the inside. The person who lands this will have genuine impact. I know Diana — she is an exceptional leader to work with.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString() },
+    { id: "jc-2", jobId: "job-head-community", authorId: "uid-naomi-chen", isMentor: false, text: "Highly recommend this org. I've collaborated with the HER Circle team on multiple campaigns and their culture is everything. Don't sleep on this application.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 1).toISOString() },
+    { id: "jc-3", jobId: "job-ux-lead", authorId: "uid-diana-wells", isMentor: true, text: "Sofia runs one of the most thoughtful design studios I've seen. If you're a UX designer looking for a real leadership role with mentorship built in, apply.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 20).toISOString() },
+    { id: "jc-4", jobId: "job-ux-lead", authorId: "uid-kezia-obi", isMentor: false, text: "Lumina Creative did our brand redesign and the process was incredible. The team is so collaborative.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 18).toISOString() },
+    { id: "jc-5", jobId: "job-mktg-mgr", authorId: "uid-priya-sharma", isMentor: true, text: "Great entry point for someone wanting to move from individual contributor to management. Naomi is a generous mentor — she'll actually teach you the business side of marketing.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 40).toISOString() },
+    { id: "jc-6", jobId: "job-biz-dev", authorId: "uid-diana-wells", isMentor: true, text: "Business development at a woman-owned law firm is a unique and valuable experience. Priya's network is extraordinary — this role will open many doors.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 65).toISOString() },
+    { id: "jc-7", jobId: "job-biz-dev", authorId: "uid-sofia-reyes", isMentor: false, text: "I worked with Vantage on a branding project — the team is sharp and the partners really invest in their staff's growth.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 60).toISOString() },
+    { id: "jc-8", jobId: "job-brand-mgr", authorId: "uid-priya-sharma", isMentor: true, text: "If you want real creative ownership and direct founder access, this is the role. Kezia gives her team the freedom to take risks and the support to succeed.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 88).toISOString() },
+    { id: "jc-9", jobId: "job-brand-mgr", authorId: "uid-naomi-chen", isMentor: false, text: "LuminaBox has such a strong brand identity. Managing content for them would be a portfolio-builder for sure.", createdAt: new Date(Date.now() - 1000 * 60 * 60 * 80).toISOString() }
+  ];
+
   /* ---------- Initialization ---------- */
 
   async function sha256(text) {
@@ -155,6 +339,8 @@ const HCDB = (() => {
     if (!read("donations")) write("donations", []);
     if (!read("volunteers")) write("volunteers", []);
     if (!read("subscribers")) write("subscribers", []);
+    if (!read("connections", null)) write("connections", []);
+    if (!read("jobApplications", null)) write("jobApplications", []);
     if (!read("outbox")) write("outbox", []);
     if (!read("audit")) write("audit", []);
     if (!read("audit", []).length) write("audit", [
@@ -197,6 +383,34 @@ const HCDB = (() => {
       });
       write("users", currentUsers);
     }
+
+    // Seed community users
+    const allUsers = read("users", []);
+    for (const cu of SEED_COMMUNITY_USERS) {
+      if (!allUsers.some(u => u.email === cu.email)) {
+        const salt = uid();
+        allUsers.push({
+          ...cu,
+          salt,
+          passwordHash: await sha256("Member123!" + salt),
+          createdAt: new Date().toISOString()
+        });
+      }
+    }
+    write("users", allUsers);
+
+    // Seed posts
+    if (!read("posts", null)) write("posts", SEED_POSTS);
+
+    // Seed jobs board
+    if (!read("jobs_board", null)) write("jobs_board", SEED_JOBS_BOARD);
+
+    // Seed job comments
+    if (!read("job_comments", null)) write("job_comments", SEED_JOB_COMMENTS);
+
+    // Initialize empty collections
+    if (!read("connections", null)) write("connections", []);
+    if (!read("jobApplications", null)) write("jobApplications", []);
 
     const demoUser = read("users", []).find(u => u.email === "member@hercircle.org");
     if (demoUser && !read("registrations", []).some(r => r.email === demoUser.email)) {
