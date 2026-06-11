@@ -42,10 +42,10 @@ const HCFeed = (() => {
    */
   function avatarHTML(user, size) {
     if (!user) {
-      const cls = size ? `avatar avatar-${size}` : "avatar";
+      const cls = size ? `avatar-circle ${size}` : "avatar-circle";
       return `<div class="${cls}" style="background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">?</div>`;
     }
-    const cls = size ? `avatar avatar-${size}` : "avatar";
+    const cls = size ? `avatar-circle ${size}` : "avatar-circle";
     const extraStyle = size === "lg" ? "border:3px solid white;" : "";
 
     if (user.avatarData) {
@@ -744,29 +744,8 @@ const HCFeed = (() => {
         bindFeedEvents("my-posts-feed", user.id);
       }
     }
-
-    /* Avatar upload */
-    const avatarInput = document.getElementById("avatar-upload-input");
-    if (avatarInput) {
-      avatarInput.addEventListener("change", () => {
-        const file = avatarInput.files && avatarInput.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const result = e.target.result;
-          HCDB.update("users", user.id, { avatarData: result });
-          /* Update all avatar img elements that belong to this user */
-          document.querySelectorAll(`.avatar img`).forEach(img => {
-            const link = img.closest("a[href]");
-            if (link && link.href && link.href.includes(user.id)) {
-              img.src = result;
-            }
-          });
-          HC.toast("Avatar updated!");
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+    /* Avatar upload is wired by the host page (profile.html) so it can
+       refresh the visible avatar display directly. */
   }
 
 
@@ -852,12 +831,39 @@ const HCFeed = (() => {
 
 
   /* ============================================================
+     FEED PROFILE CARD (left rail)
+     ============================================================ */
+
+  function renderFeedProfileCard(containerId, user) {
+    const el = document.getElementById(containerId);
+    if (!el || !user) return;
+    const conns = HCDB.get("connections").filter(c =>
+      (c.fromId === user.id || c.toId === user.id) && c.status === "accepted").length;
+    el.innerHTML = `<div class="profile-card">
+      <div class="profile-card-cover"></div>
+      <div class="profile-card-body">
+        <a href="profile.html" class="profile-card-avatar-wrap">${avatarHTML(user, "lg")}</a>
+        <a href="profile.html" class="profile-card-name">${esc(user.firstName)} ${esc(user.lastName)}</a>
+        <p class="profile-card-headline">${esc(user.headline || "HER Circle Member")}</p>
+        <div class="profile-card-stats"><span><strong>${conns}</strong> connection${conns !== 1 ? "s" : ""}</span></div>
+        <div class="feed-quicklinks">
+          <a href="jobs.html">&#128188; Jobs</a>
+          <a href="events.html">&#128197; Events</a>
+          <a href="programs.html">&#127891; Programs</a>
+          <a href="profile.html">&#9881;&#65039; Edit profile</a>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /* ============================================================
      PUBLIC API
      ============================================================ */
 
   return {
     avatarHTML,
     timeAgo,
+    renderFeedProfileCard,
     renderFeed,
     bindFeedEvents,
     initCreatePost,

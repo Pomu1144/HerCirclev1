@@ -33,7 +33,7 @@
           <div class="create-post-box panel">
             <div class="create-post-trigger-row">
               <div id="feed-avatar-trigger"></div>
-              <button class="create-post-trigger" aria-label="Create a post">What's on your mind?</button>
+              <button class="create-post-trigger" id="create-post-trigger" aria-label="Create a post">What's on your mind?</button>
             </div>
             <div class="create-post-types">
               <button class="post-type-btn" data-type="general" aria-label="Create a general post">&#128172; Post</button>
@@ -67,7 +67,7 @@
     <div class="post-modal panel" id="post-modal">
       <div class="post-modal-header">
         <h2 id="post-modal-title">Create a Post</h2>
-        <button class="pm-close-btn modal-close" aria-label="Close modal">&times;</button>
+        <button class="pm-close-btn modal-close" id="pm-close" aria-label="Close modal">&times;</button>
       </div>
       <div class="post-modal-body">
         <form id="create-post-form" novalidate>
@@ -84,48 +84,48 @@
             <textarea id="pm-content" class="pm-content-input" rows="4" placeholder="Share something with the community..." style="width:100%;padding:12px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit;font-size:.95rem;resize:vertical"></textarea>
           </div>
           <!-- Job extra fields -->
-          <div class="pm-job-extra pm-extra" hidden>
+          <div class="pm-job-extra pm-extra" id="pm-job-fields" style="display:none">
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Job Title</label>
-              <input class="pm-job-title" type="text" placeholder="e.g. Marketing Manager" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-job-title">Job Title</label>
+              <input id="pm-job-title" type="text" placeholder="e.g. Marketing Manager" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Company</label>
-              <input class="pm-job-company" type="text" placeholder="Company name" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-job-company">Company</label>
+              <input id="pm-job-company" type="text" placeholder="Company name" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Location</label>
-              <input class="pm-job-location" type="text" placeholder="e.g. Remote, New York, NY" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-job-location">Location</label>
+              <input id="pm-job-location" type="text" placeholder="e.g. Remote, New York, NY" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Salary Range</label>
-              <input class="pm-job-salary" type="text" placeholder="e.g. $60k-$80k" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-job-salary">Salary Range</label>
+              <input id="pm-job-salary" type="text" placeholder="e.g. $60k-$80k" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Apply URL (optional)</label>
-              <input class="pm-job-apply" type="url" placeholder="https://..." style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-job-url">Apply URL (optional)</label>
+              <input id="pm-job-url" type="url" placeholder="https://..." style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
           </div>
           <!-- Event extra fields -->
-          <div class="pm-event-extra pm-extra" hidden>
+          <div class="pm-event-extra pm-extra" id="pm-event-fields" style="display:none">
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Event Name</label>
-              <input class="pm-event-name" type="text" placeholder="Event name" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-event-name">Event Name</label>
+              <input id="pm-event-name" type="text" placeholder="Event name" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Date &amp; Time</label>
-              <input class="pm-event-date" type="datetime-local" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-event-date">Date &amp; Time</label>
+              <input id="pm-event-date" type="datetime-local" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
             <div class="field" style="margin-bottom:12px">
-              <label class="label">Location</label>
-              <input class="pm-event-location" type="text" placeholder="Venue or Virtual" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
+              <label class="label" for="pm-event-location">Location</label>
+              <input id="pm-event-location" type="text" placeholder="Venue or Virtual" style="width:100%;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit">
             </div>
           </div>
         </form>
       </div>
       <div class="post-modal-footer">
         <button class="btn btn-outline btn-sm pm-close-btn-footer" onclick="document.getElementById('post-modal-overlay').style.display='none';document.body.style.overflow=''">Cancel</button>
-        <button class="btn btn-purple btn-sm pm-submit-btn">Post</button>
+        <button class="btn btn-purple btn-sm pm-submit-btn" id="pm-submit">Post</button>
       </div>
     </div>
   </div>
@@ -151,6 +151,15 @@
       HCFeed.initCreatePost(user);
       HCFeed.renderPeopleSuggestions("people-suggestions", user.id);
       HCFeed.renderJobSuggestions("job-suggestions");
+
+      // Quick type buttons open the modal preset to the chosen type
+      document.querySelectorAll(".post-type-btn[data-type]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const sel = document.getElementById("pm-type");
+          if (sel) { sel.value = btn.dataset.type; sel.dispatchEvent(new Event("change")); }
+          document.getElementById("create-post-trigger").click();
+        });
+      });
     });
   </script>
 </body>
