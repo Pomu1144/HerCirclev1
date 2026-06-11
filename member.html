@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Profile - HER Circle</title>
+  <meta name="description" content="View a HER Circle member's profile and posts.">
+  <meta name="theme-color" content="#2E1065">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-nav="solid">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="site-nav"></div>
+
+  <main id="main" class="member-page">
+    <div class="container">
+      <div style="padding-top:calc(var(--nav-h))">
+        <div id="member-hero" aria-label="Member profile"></div>
+
+        <div class="member-layout" style="margin-top:32px">
+          <div style="max-width:720px; margin:0 auto">
+            <h2 style="font-size:1.25rem; font-family:var(--font-body); font-weight:700; margin-bottom:16px">Posts</h2>
+            <div id="member-posts" aria-live="polite" aria-label="Member posts"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/feed.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await HCDB.ready;
+      const params = new URLSearchParams(location.search);
+      const memberId = params.get("id");
+      const currentUser = HCAuth.currentUser();
+      const currentUserId = currentUser ? currentUser.id : null;
+      HCFeed.initMemberPage(memberId, currentUserId);
+    });
+  </script>
+</body>
+</html>

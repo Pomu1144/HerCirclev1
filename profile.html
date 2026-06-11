@@ -16,26 +16,54 @@
   <a class="skip-link" href="#main">Skip to main content</a>
   <div id="site-nav"></div>
 
-  <main id="main" style="padding-top:calc(var(--nav-h) + 50px); min-height:100vh; background:var(--gray-50); padding-bottom:80px">
-    <div class="container" style="max-width:860px">
-      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:32px">
-        <h1 style="margin:0; font-size:2.2rem">My Profile</h1>
-        <button class="btn btn-outline btn-sm" id="logout-btn">Sign Out</button>
+  <main id="main" style="padding-top:var(--nav-h); min-height:100vh; background:var(--gray-50); padding-bottom:80px">
+    <div class="container" style="max-width:860px; padding-top:32px">
+
+      <!-- LinkedIn-style profile hero -->
+      <div class="panel" style="padding:0; overflow:hidden; margin-bottom:24px">
+        <!-- Cover strip -->
+        <div class="profile-card-cover" style="height:160px; background:var(--grad-purple); position:relative;"></div>
+
+        <!-- Avatar + info -->
+        <div style="padding:0 28px 24px; position:relative;">
+          <!-- Avatar overlapping cover -->
+          <div class="avatar-upload-wrap" style="position:relative; display:inline-block; margin-top:-48px; margin-bottom:12px">
+            <div class="profile-avatar-display" id="profile-avatar-display"></div>
+            <label for="avatar-upload-input" class="avatar-upload-btn" aria-label="Change profile photo" title="Change profile photo">
+              &#128247;
+            </label>
+            <input type="file" id="avatar-upload-input" accept="image/*" style="display:none" aria-label="Upload profile photo">
+          </div>
+
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px">
+            <div>
+              <h1 id="profile-full-name" style="font-size:1.7rem; margin-bottom:4px"></h1>
+              <div id="profile-headline-display" style="color:var(--gray-600); font-size:1rem; margin-bottom:4px"></div>
+              <div id="profile-bio-display" style="color:var(--gray-600); font-size:.9rem; margin-bottom:8px; max-width:520px"></div>
+              <div id="profile-connections" style="color:var(--purple); font-size:.88rem; font-weight:600"></div>
+            </div>
+            <button class="btn btn-outline btn-sm" id="logout-btn">Sign Out</button>
+          </div>
+        </div>
       </div>
 
+      <!-- Edit Profile panel -->
       <div class="panel" id="account-panel">
-        <h2>Account Details</h2>
+        <h2>Edit Profile</h2>
         <form id="profile-form" novalidate>
           <div class="form-grid">
             <div class="field"><label for="pf-first">First Name</label><input id="pf-first" required><span class="error-msg">Required.</span></div>
             <div class="field"><label for="pf-last">Last Name</label><input id="pf-last" required><span class="error-msg">Required.</span></div>
-            <div class="field"><label for="pf-email">Email</label><input id="pf-email" disabled><span class="hint">Email changes require support - contact us.</span></div>
+            <div class="field"><label for="pf-email">Email</label><input id="pf-email" disabled><span class="hint">Email changes require support.</span></div>
             <div class="field"><label for="pf-phone">Phone</label><input id="pf-phone" type="tel"></div>
+            <div class="field full"><label for="pf-headline">Professional Headline</label><input id="pf-headline" type="text" placeholder="e.g. Founder & CEO | Women's Business Coach"><span class="hint">Shown under your name on your profile.</span></div>
+            <div class="field full"><label for="pf-bio">Bio</label><textarea id="pf-bio" rows="3" placeholder="Tell the community about yourself..." style="width:100%;padding:12px;border:1.5px solid var(--gray-200);border-radius:10px;font-family:inherit;font-size:.95rem;resize:vertical"></textarea></div>
           </div>
           <button class="btn btn-purple btn-sm" type="submit" style="margin-top:20px">Save Changes</button>
         </form>
       </div>
 
+      <!-- Change Password panel -->
       <div class="panel">
         <h2>Change Password</h2>
         <form id="password-form" novalidate>
@@ -47,10 +75,18 @@
         </form>
       </div>
 
+      <!-- My Posts -->
+      <div class="panel">
+        <h2>My Posts</h2>
+        <div id="profile-posts-container"></div>
+      </div>
+
+      <!-- My Registrations -->
       <div class="panel">
         <h2>My Event Registrations</h2>
         <div id="my-registrations"></div>
       </div>
+
     </div>
   </main>
 
@@ -58,6 +94,7 @@
   <script src="js/data.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/feed.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       await HCDB.ready;
@@ -65,15 +102,39 @@
       if (!user) return;
       const $ = id => document.getElementById(id);
 
+      // Render avatar
+      const avatarDisplay = $("profile-avatar-display");
+      function refreshAvatar(u) {
+        avatarDisplay.innerHTML = HCFeed.avatarHTML(u, "lg");
+      }
+      refreshAvatar(user);
+
+      // Fill in name/headline/bio
+      function refreshProfileDisplay() {
+        const freshUser = HCDB.get("users").find(u => u.id === user.id) || user;
+        $("profile-full-name").textContent = freshUser.firstName + " " + freshUser.lastName;
+        $("profile-headline-display").textContent = freshUser.headline || "HER Circle Member";
+        $("profile-bio-display").textContent = freshUser.bio || "";
+        const connCount = HCDB.get("connections").filter(c =>
+          (c.fromId === freshUser.id || c.toId === freshUser.id) && c.status === "accepted"
+        ).length;
+        $("profile-connections").textContent = connCount + " connection" + (connCount !== 1 ? "s" : "");
+      }
+      refreshProfileDisplay();
+
+      // Populate form
       $("pf-first").value = user.firstName;
       $("pf-last").value = user.lastName;
       $("pf-email").value = user.email;
       $("pf-phone").value = user.phone || "";
+      const freshForForm = HCDB.get("users").find(u => u.id === user.id) || user;
+      $("pf-headline").value = freshForForm.headline || "";
+      $("pf-bio").value = freshForForm.bio || "";
 
       if (!user.verified) {
         const note = document.createElement("p");
         note.className = "impact-calc-result";
-        note.innerHTML = `Notice: Your email isn't verified yet. Check your inbox for the verification link.`;
+        note.innerHTML = "Notice: Your email isn't verified yet. Check your inbox for the verification link.";
         $("account-panel").prepend(note);
       }
 
@@ -82,25 +143,57 @@
       $("profile-form").addEventListener("submit", async e => {
         e.preventDefault();
         const res = await HCAuth.updateProfile({
-          firstName: $("pf-first").value, lastName: $("pf-last").value, phone: $("pf-phone").value
+          firstName: $("pf-first").value,
+          lastName: $("pf-last").value,
+          phone: $("pf-phone").value
         });
+        // Also save headline and bio via HCDB directly
+        const freshUser2 = HCDB.get("users").find(u => u.id === user.id);
+        if (freshUser2) {
+          HCDB.update("users", freshUser2.id, {
+            headline: $("pf-headline").value.trim(),
+            bio: $("pf-bio").value.trim()
+          });
+        }
         HC.toast(res.ok ? "Profile updated." : res.message, res.ok ? "success" : "error");
+        if (res.ok) refreshProfileDisplay();
       });
 
       $("password-form").addEventListener("submit", async e => {
         e.preventDefault();
         const res = await HCAuth.updateProfile({
-          currentPassword: $("pw-current").value, newPassword: $("pw-new").value
+          currentPassword: $("pw-current").value,
+          newPassword: $("pw-new").value
         });
         HC.toast(res.ok ? "Password updated." : res.message, res.ok ? "success" : "error");
         if (res.ok) e.target.reset();
       });
 
+      // Avatar upload via HCFeed
+      HCFeed.initProfilePage(user);
+      // Also wire refreshAvatar after upload
+      const avatarInput = $("avatar-upload-input");
+      if (avatarInput) {
+        avatarInput.addEventListener("change", e => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = ev => {
+            const dataUrl = ev.target.result;
+            HCDB.update("users", user.id, { avatarData: dataUrl });
+            const updatedUser = Object.assign({}, user, { avatarData: dataUrl });
+            refreshAvatar(updatedUser);
+            HC.toast("Avatar updated!", "success");
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
       // My registrations
       const regs = HCDB.get("registrations").filter(r => r.email === user.email);
       const wrap = $("my-registrations");
       if (!regs.length) {
-        wrap.innerHTML = `<div class="empty-state"><span class="big" aria-hidden="true"></span>No registrations yet. <a href="events.html">Find your first event -></a></div>`;
+        wrap.innerHTML = `<div class="empty-state"><span class="big" aria-hidden="true"></span>No registrations yet. <a href="events.html">Find your first event &rarr;</a></div>`;
       } else {
         wrap.innerHTML = `<div class="table-wrap"><table class="data"><thead><tr>
           <th>Event</th><th>Status</th><th>Registered</th><th></th></tr></thead><tbody>` +

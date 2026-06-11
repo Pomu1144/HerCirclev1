@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jobs Board - HER Circle</title>
+  <meta name="description" content="Find career opportunities in the HER Circle community.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#2E1065">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%234B1D95'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23D4AF37' stroke-width='7'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-nav="solid">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="site-nav"></div>
+
+  <main id="main" class="jobs-page">
+    <div class="container">
+      <div style="padding-top:calc(var(--nav-h) + 32px); margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px">
+        <div>
+          <h1 style="font-size:2rem; margin-bottom:4px">Jobs Board</h1>
+          <p style="color:var(--gray-600); margin:0">Opportunities curated for the HER Circle community.</p>
+        </div>
+        <a href="feed.html" class="btn btn-outline btn-sm">&#8592; Back to Feed</a>
+      </div>
+      <div class="jobs-layout">
+        <!-- Left: Job list -->
+        <div class="jobs-list-panel panel">
+          <input id="jobs-search" class="jobs-search" type="search" placeholder="Search jobs, companies..." aria-label="Search jobs">
+          <div id="jobs-list" aria-live="polite" aria-label="Job listings"></div>
+        </div>
+        <!-- Right: Job detail -->
+        <div id="job-detail" class="job-detail-panel panel" aria-live="polite" aria-label="Job details">
+          <div class="empty-state"><span class="big" aria-hidden="true">&#128188;</span>Select a job to view details.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/feed.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await HCDB.ready;
+      const user = HCAuth.requireRole(["user", "coordinator", "admin"]);
+      if (!user) return;
+      HCFeed.initJobsPage(user.id);
+    });
+  </script>
+</body>
+</html>
