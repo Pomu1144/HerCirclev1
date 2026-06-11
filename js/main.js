@@ -30,7 +30,11 @@ const HC = (() => {
     const page = currentPage();
     const user = HCAuth.currentUser();
 
-    const links = PAGES.map(([href, label]) =>
+    const visiblePages = user
+      ? [...PAGES, ["feed.html", "Feed"], ["jobs.html", "Jobs"]]
+      : PAGES;
+
+    const links = visiblePages.map(([href, label]) =>
       `<li><a href="${href}" ${href === page ? 'aria-current="page"' : ""}>${label}</a></li>`
     ).join("");
 
